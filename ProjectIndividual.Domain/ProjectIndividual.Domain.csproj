@@ -40,19 +40,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="FileManagment\FileCreator.cs" />
     <Compile Include="FileManagment\FileLoader.cs" />
-    <Compile Include="GridComponent\Cell.cs" />
-    <Compile Include="GridComponent\Grid.cs" />
-    <Compile Include="GridComponent\Position.cs" />
+    <Compile Include="GridComponent\Entities\Cell.cs" />
+    <Compile Include="GridComponent\Entities\Grid.cs" />
+    <Compile Include="GridComponent\Entities\Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RulesComponent\Rule.cs" />
-    <Compile Include="RulesComponent\RuleSet.cs" />
-    <Compile Include="RulesComponent\Sentence.cs" />
-    <Compile Include="RulesComponent\Statement.cs" />
+    <Compile Include="RulesComponent\Entities\Rule.cs" />
+    <Compile Include="RulesComponent\Entities\RuleSet.cs" />
+    <Compile Include="RulesComponent\Entities\Sentence.cs" />
+    <Compile Include="RulesComponent\Entities\Statement.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GridComponent\Abstract\" />
+    <Folder Include="RulesComponent\Abstract\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

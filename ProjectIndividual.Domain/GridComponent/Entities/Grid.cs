@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjectIndividual.Domain.GridComponent
+namespace ProjectIndividual.Domain.GridComponent.Entities
 {
     public class Grid
     {

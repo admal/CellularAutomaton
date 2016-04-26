@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ProjectIndividual.Domain.GridComponent;
+using ProjectIndividual.Domain.GridComponent.Entities;
 
-namespace ProjectIndividual.Domain.RulesComponent
+namespace ProjectIndividual.Domain.RulesComponent.Entities
 {
     public class Rule
     {
         private IList<Statement> statements;
-        private Cell.CellState retState;
+        private CellState retState;
         private int priority;
 
-        public Cell.CellState Apply()
+        public CellState Apply()
         {
             throw new NotImplementedException();
         }

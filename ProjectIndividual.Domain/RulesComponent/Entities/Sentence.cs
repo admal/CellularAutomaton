@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ProjectIndividual.Domain.GridComponent;
+using ProjectIndividual.Domain.GridComponent.Entities;
 
-namespace ProjectIndividual.Domain.RulesComponent
+namespace ProjectIndividual.Domain.RulesComponent.Entities
 {
     public class Sentence
     {
@@ -16,7 +13,7 @@ namespace ProjectIndividual.Domain.RulesComponent
         /// <summary>
         /// Return state if GetValue() is true.
         /// </summary>
-        private Cell.CellState State;
+        private CellState State;
         /// <summary>
         /// What area should be considered for evaluation of next state of cell.
         /// </summary>

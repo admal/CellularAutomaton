@@ -1,0 +1,26 @@
+﻿<Window x:Class="ProjectIndividual.UI.Views.RuleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectIndividual.UI.Views"
+        xmlns:customControls="clr-namespace:ProjectIndividual.UI.CustomControls"
+        mc:Ignorable="d"
+        Title="Rule" Height="300" Width="500">
+    <Grid>
+        <DockPanel LastChildFill="False">
+            <Grid DockPanel.Dock="Top">
+                <Button Content="Apply" HorizontalAlignment="Left" Margin="76,0,0,0" Width="45"></Button>
+                <Button Content="Save rules" HorizontalAlignment="Left" Width="76"></Button>
+                <Button Content="Load rules" HorizontalAlignment="Left" Margin="121,0,0,0" Width="73"></Button>
+                <Button Content="Back" HorizontalAlignment="Right" Width="49"></Button>
+            </Grid>
+            <Separator DockPanel.Dock="Top" Height="8"></Separator>
+            <Grid Height="30px" DockPanel.Dock="Top">
+                <customControls:RuleControl></customControls:RuleControl>
+            </Grid>
+        </DockPanel>
+
+        
+    </Grid>
+</Window>

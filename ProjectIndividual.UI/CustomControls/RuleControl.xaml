@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="ProjectIndividual.UI.CustomControls.RuleControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectIndividual.UI.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="600">
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <Button Content="X" Width="21"></Button>
+            <TextBox Width="50px" x:Name="tbPriority" DockPanel.Dock="Left"></TextBox>
+            <Separator DockPanel.Dock="Left" Height="30px" />
+            <Label Content="If" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+            <local:StatementControl></local:StatementControl>
+        </DockPanel>
+    </Grid>
+</UserControl>

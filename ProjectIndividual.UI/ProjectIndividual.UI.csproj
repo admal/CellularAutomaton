@@ -55,6 +55,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomControls\RuleControl.xaml.cs">
+      <DependentUpon>RuleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\StatementControl.xaml.cs">
+      <DependentUpon>StatementControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RuleWindow.xaml.cs">
+      <DependentUpon>RuleWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CustomControls\RuleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\StatementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,6 +85,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\RuleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -97,7 +118,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Themes\" />
     <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectIndividual.Domain\ProjectIndividual.Domain.csproj">
+      <Project>{fe3400e9-d1ad-4296-a4fb-a022dd8f3f49}</Project>
+      <Name>ProjectIndividual.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

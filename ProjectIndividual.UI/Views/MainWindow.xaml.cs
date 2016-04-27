@@ -11,5 +11,11 @@ namespace ProjectIndividual.UI.Views
         {
             InitializeComponent();
         }
+
+        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var win = new RuleWindow();
+            win.Show();
+        }
     }
 }

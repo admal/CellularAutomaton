@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectIndividual.UI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Cellular automaton" WindowState="Maximized">
     <Grid>
-        
+
+        <DockPanel LastChildFill="True">
+            <Menu IsMainMenu="True" DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Setup"></MenuItem>
+                    <!--Do not know why it is-->
+                    <MenuItem Header="_Choose rule"></MenuItem>
+                    <MenuItem Header="_Create rule"></MenuItem>
+                    <MenuItem Header="_Choose grid"></MenuItem>
+                    <MenuItem Header="_Random grid"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Info"></MenuItem>
+            </Menu>
+            <UniformGrid Height="50px" DockPanel.Dock="Bottom" Rows="1" >
+                <Button Content="Run/Stop"></Button>
+                <Button Content="Next step"></Button>
+                <Button Content="Zoom in"></Button>
+                <Button Content="Zoom out"></Button>
+                <Button Content="See all" ToolTip="See all living cells"></Button>
+                <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Jump several &#xD;&#xA;steps ahead:"></Label>
+                <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
+                <Button Content="Jump"></Button>
+            </UniformGrid>
+            <UniformGrid DockPanel.Dock="Top" Rows="1">
+                <Label HorizontalContentAlignment="Right" Content="Living cells: "></Label>
+                <Label Content="0"></Label>
+                <Label HorizontalContentAlignment="Right" Content="Generation: "></Label>
+                <Label Content="0"></Label>
+                <Label HorizontalContentAlignment="Right" Content="Rule:"></Label>
+                <Label Content="not loaded"></Label>
+            </UniformGrid>
+            <Canvas Background="AntiqueWhite">
+            </Canvas>
+        </DockPanel>
     </Grid>
 </Window>

@@ -11,9 +11,37 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         private CellState retState;
         private int priority;
 
-        public CellState Apply()
+        public Rule(IList<Statement> statements, CellState retState, int priority)
         {
-            throw new NotImplementedException();
+            this.statements = statements;
+            this.retState = retState;
+            this.priority = priority;
+        }
+
+        public int Priority
+        {
+            get { return priority; }
+        }
+
+        public CellState Apply(Grid grid, Cell currCell)
+        {
+            bool ruleSatisfied = false;
+            foreach (var statement in statements)
+            {
+                switch (statement.Connector)
+                {
+                    case LogicalConnector.And:
+                        ruleSatisfied = ruleSatisfied && statement.LogicalSentence.GetValue(grid, currCell);
+                        break;
+                    case LogicalConnector.Or:
+                        ruleSatisfied = ruleSatisfied || statement.LogicalSentence.GetValue(grid, currCell);
+                        break;
+                    case null:
+                        ruleSatisfied = statement.LogicalSentence.GetValue(grid, currCell);
+                        break;
+                }
+            }
+            return ruleSatisfied ? retState : currCell.State;
         }
     }
 }

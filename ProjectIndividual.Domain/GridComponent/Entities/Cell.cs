@@ -18,9 +18,14 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         public long X { get { return position.X; } }
         public long Y { get { return position.Y; } }
 
-        public Cell Update()
+        public CellState State
         {
-            throw new NotImplementedException();
+            get { return state; }
+        }
+
+        public void Update(Grid grid)
+        {
+            state = grid.Rules.Apply(grid, this);
         }
     }
     public enum CellState

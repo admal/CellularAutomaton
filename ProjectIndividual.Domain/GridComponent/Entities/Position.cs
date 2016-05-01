@@ -22,7 +22,12 @@
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            var pos2 = obj as Position;
+            if (pos2==null)
+            {
+                return base.Equals(obj);
+            }
+            return (pos2.X == x && pos2.Y == y);
         }
 
         public override int GetHashCode()

@@ -30,6 +30,11 @@
             return (pos2.X == x && pos2.Y == y);
         }
 
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ")";
+        }
+
         public override int GetHashCode()
         {
             return (int)(x.GetHashCode()*17 + y.GetHashCode());

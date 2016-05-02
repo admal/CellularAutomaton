@@ -66,7 +66,7 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         public long Width { get { throw new NotImplementedException(); } }
         public long Height { get { throw new NotImplementedException(); } }
 
-        public void ComputeNextGeneration()
+        private void ComputeNextGeneration()
         {
             newCellsGeneration = visitedCells;
             foreach (var entry in newCellsGeneration)

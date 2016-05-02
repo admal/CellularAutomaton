@@ -9,13 +9,20 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
     {
         private IList<Statement> statements;
         private CellState retState;
+        private CellState inputState;
         private int priority;
 
-        public Rule(IList<Statement> statements, CellState retState, int priority)
+        public CellState InputState
+        {
+            get { return inputState; }
+        }
+
+        public Rule(IList<Statement> statements, CellState retState, int priority, CellState inputState)
         {
             this.statements = statements;
             this.retState = retState;
             this.priority = priority;
+            this.inputState = inputState;
         }
 
         public int Priority

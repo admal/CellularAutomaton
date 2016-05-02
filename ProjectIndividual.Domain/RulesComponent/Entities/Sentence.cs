@@ -13,13 +13,9 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         /// </summary>
         private int NumOfCells;
         /// <summary>
-        /// Searching for that stet in the given Area
+        /// Searching for that state in the given Area
         /// </summary>
         private CellState SeekState;
-        ///// <summary>
-        ///// Return state if GetValue() is true.
-        ///// </summary>
-        //private CellState RetState;
         /// <summary>
         /// What area should be considered for evaluation of next state of cell.
         /// </summary>
@@ -45,7 +41,13 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                     case Area.Column:
                     for (int i = -2; i <= 2; i++)
                     {
-                        if (cells.GetCellState(currCell.X + i, currCell.Y + Num-1) == SeekState)
+                        var currPos = new Position(currCell.X + Num - 3, currCell.Y + i);
+                        if (Equals(currPos, currCell.Position)) //skip itself
+                        {
+                            continue;
+                        }
+                        if (cells.GetCellState( currPos ) == SeekState)
+                        //Num-3 because columns are indexed from 1 and currCell is in the middle of neighbouorhood (no in the corner)
                         {
                             count++;
                         }
@@ -54,7 +56,13 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                     case Area.Row:
                     for (int i = -2; i <= 2; i++)
                     {
-                        if (cells.GetCellState(currCell.X + Num-1, currCell.Y+i) == SeekState)
+                        var currPos = new Position(currCell.X + i, currCell.Y + Num - 3);
+                        if (Equals(currPos, currCell.Position)) //skip itself
+                        {
+                            continue;
+                        }
+                        if (cells.GetCellState(currPos) == SeekState)
+                        //Num-3 because rows are indexed from 1 and currCell is in the middle of neighbouorhood (no in the corner)
                         {
                             count++;
                         }
@@ -65,11 +73,12 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                     {
                         for (int j = -2; j <= 2; j++)
                         {
-                            if (i==j)
+                            if (i==0 && j ==0)
                             {
                                 continue;
                             }
-                            if (cells.GetCellState(currCell.X + i, currCell.Y+j) == SeekState)
+                            var tmp = cells.GetCellState(currCell.X + i, currCell.Y + j);
+                            if (tmp == SeekState)
                             {
                                 count++;
                             }

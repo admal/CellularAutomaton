@@ -26,6 +26,10 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
             CellState retState = currCell.State;
             foreach (var rule in rules)
             {
+                //skip rule if it is not possible to apply it to the current cell
+                if (rule.InputState != currCell.State && rule.InputState != CellState.Any)
+                    continue;
+
                 retState = rule.Apply(grid, currCell);
             }
             return retState;

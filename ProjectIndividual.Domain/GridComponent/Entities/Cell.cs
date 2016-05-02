@@ -27,9 +27,14 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         {
             state = grid.Rules.Apply(grid, this);
         }
+
+        public override string ToString()
+        {
+            return position.ToString() +" " + state;
+        }
     }
     public enum CellState
     {
-        Alive, Dead, Unvisited
+        Alive, Dead, Unvisited, Any
     }
 }

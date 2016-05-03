@@ -4,41 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectIndividual.UI.Views"
+        xmlns:viewModels="clr-namespace:ProjectIndividual.UI.ViewModels"
         mc:Ignorable="d"
         Title="Cellular automaton" WindowState="Maximized">
+    <Window.Resources>
+        <viewModels:GridViewModel x:Key="mainGrid"></viewModels:GridViewModel>
+    </Window.Resources>
+    
     <Grid>
 
         <DockPanel LastChildFill="True">
             <Menu IsMainMenu="True" DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Setup"></MenuItem>
+                    <!--<MenuItem Header="_Setup"></MenuItem>-->
                     <!--Do not know why it is-->
-                    <MenuItem Header="_Choose rule"></MenuItem>
-                    <MenuItem Header="_Create rule"></MenuItem>
+                    <MenuItem Header="_Choose rules"></MenuItem>
+                    <MenuItem Header="_Create rules" Command="{Binding OpenRulesWindowCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
                     <MenuItem Header="_Choose grid"></MenuItem>
                     <MenuItem Header="_Random grid"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Info" ></MenuItem>
             </Menu>
             <UniformGrid Height="50px" DockPanel.Dock="Bottom" Rows="1" >
-                <Button Content="Run/Stop"></Button>
-                <Button Content="Next step"></Button>
-                <Button Content="Zoom in"></Button>
-                <Button Content="Zoom out"></Button>
-                <Button Content="See all" ToolTip="See all living cells"></Button>
+                <Button Content="Run/Stop" IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="Next step" IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="Zoom in" IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="Zoom out"  IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="See all" ToolTip="See all living cells"  
+                        IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
                 <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Jump several &#xD;&#xA;steps ahead:"></Label>
-                <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></TextBox>
-                <Button Content="Jump"></Button>
+                <TextBox x:Name="tbJumpSteps" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  
+                         IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></TextBox>
+                <Button Content="Jump"  IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></Button>
             </UniformGrid>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
                 <Label HorizontalContentAlignment="Right" Content="Living cells: "></Label>
-                <Label Content="0"></Label>
+                <Label x:Name="lblLivingCells" Content="{Binding LivingCellsCount, Source={StaticResource mainGrid}}"></Label>
                 <Label HorizontalContentAlignment="Right" Content="Generation: "></Label>
-                <Label Content="0"></Label>
+                <Label x:Name="lblGeneration" Content="{Binding Generation, Source={StaticResource mainGrid}}"></Label>
                 <Label HorizontalContentAlignment="Right" Content="Rule:"></Label>
-                <Label Content="not loaded"></Label>
+                <Label x:Name="lblRuleName" Content="{Binding RulesName, Source={StaticResource mainGrid}}"></Label>
             </UniformGrid>
-            <Canvas Background="AntiqueWhite">
+            <Canvas x:Name="canGrid" Background="{Binding GridBitmap., Source={StaticResource mainGrid}}">
             </Canvas>
         </DockPanel>
     </Grid>

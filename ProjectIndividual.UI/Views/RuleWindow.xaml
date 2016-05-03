@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:ProjectIndividual.UI.Views"
         xmlns:customControls="clr-namespace:ProjectIndividual.UI.CustomControls"
         mc:Ignorable="d"
-        Title="Rule" Height="300" Width="500">
+        Title="Rule" Height="300" Width="1108.3">
     <Grid>
-        <DockPanel LastChildFill="False">
+        <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Button Content="Apply" HorizontalAlignment="Left" Margin="76,0,0,0" Width="45"></Button>
                 <Button Content="Save rules" HorizontalAlignment="Left" Width="76"></Button>
@@ -16,11 +16,17 @@
                 <Button Content="Back" HorizontalAlignment="Right" Width="49"></Button>
             </Grid>
             <Separator DockPanel.Dock="Top" Height="8"></Separator>
-            <Grid Height="30px" DockPanel.Dock="Top">
-                <customControls:RuleControl></customControls:RuleControl>
+            <Grid Height="237" VerticalAlignment="Bottom">
+                <ListView x:Name="listRules" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top">
+                    <ListViewItem>
+                        <customControls:RuleControl></customControls:RuleControl>
+                    </ListViewItem>
+                </ListView>
+                <Button Content="Add rule" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Margin="0,50,0,0"/>
+
             </Grid>
         </DockPanel>
 
-        
+
     </Grid>
 </Window>

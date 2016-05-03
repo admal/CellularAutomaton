@@ -9,6 +9,7 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
     public class RulesSet
     {
         private IList<Rule> rules;
+        public string Name { get; set; }
 
         public RulesSet()
         {

@@ -4,15 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectIndividual.UI.CustomControls"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:gridEntities="clr-namespace:ProjectIndividual.Domain.GridComponent.Entities;assembly=ProjectIndividual.Domain"
+             xmlns:rulesEntities="clr-namespace:ProjectIndividual.Domain.RulesComponent.Entities;assembly=ProjectIndividual.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="600">
+             d:DesignHeight="30" d:DesignWidth="1089">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="CellStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="gridEntities:CellState"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="NeighbourHoodEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="rulesEntities:Area"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
     <Grid>
         <DockPanel LastChildFill="True">
-            <Button Content="X" Width="21"></Button>
-            <TextBox Width="50px" x:Name="tbPriority" DockPanel.Dock="Left"></TextBox>
+            <Button Background="Brown" Content="X" Width="21"></Button>
+            <TextBox Width="36" x:Name="tbPriority" DockPanel.Dock="Left"></TextBox>
             <Separator DockPanel.Dock="Left" Height="30px" />
-            <Label Content="If" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
-            <local:StatementControl></local:StatementControl>
+            <Label Background="AliceBlue" Content="If current cell state is" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="53"></ComboBox>
+            <Label Content="and there are" Background="AliceBlue"></Label>
+
+            <TextBox  HorizontalAlignment="Left" Width="35" x:Name="tbNumOcells" ></TextBox>
+            <Label Background="AliceBlue" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="cells"></Label>
+            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"></ComboBox>
+            <Label Background="AliceBlue" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="in"></Label>
+            <ComboBox HorizontalAlignment="Left"  ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"></ComboBox>
+            <!--<local:StatementControl></local:StatementControl>-->
+            <ListView x:Name="listStatements"></ListView>
         </DockPanel>
     </Grid>
 </UserControl>

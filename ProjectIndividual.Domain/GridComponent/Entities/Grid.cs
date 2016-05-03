@@ -63,8 +63,25 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         }
 
 
-        public long Width { get { throw new NotImplementedException(); } }
-        public long Height { get { throw new NotImplementedException(); } }
+        public long Width
+        {
+            get
+            {
+                var xValues = visitedCells.Keys.Select(position => position.X).ToList();
+                long min = xValues.Min(), max = xValues.Max();
+                return max - min;
+            }
+        }
+
+        public long Height
+        {
+            get
+            {
+                var yValues = visitedCells.Keys.Select(position => position.Y).ToList();
+                long min = yValues.Min(), max = yValues.Max();
+                return max - min;
+            }
+        }
 
         private void ComputeNextGeneration()
         {

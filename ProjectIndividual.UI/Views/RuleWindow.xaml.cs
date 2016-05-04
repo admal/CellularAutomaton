@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using ProjectIndividual.Domain.RulesComponent.Entities;
+using ProjectIndividual.UI.ViewModels;
 
 namespace ProjectIndividual.UI.Views
 {
@@ -22,6 +24,15 @@ namespace ProjectIndividual.UI.Views
         public RuleWindow()
         {
             InitializeComponent();
+        }
+
+        public RuleWindow(RulesSet rules)
+        {
+            InitializeComponent();
+            var ruleViewModel = ((RulesSetViewModel)Resources["rulesSet"]);
+            ruleViewModel.rules = rules;
+            ruleViewModel.RaisePropertyChanged("RuleName");
+            ruleViewModel.RaisePropertyChanged("Rules");
         }
     }
 }

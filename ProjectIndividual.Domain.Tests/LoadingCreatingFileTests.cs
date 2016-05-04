@@ -65,6 +65,7 @@ namespace ProjectIndividual.Domain.Tests
         {
             var ret = FileLoader.ReadFromBinaryFile<Grid>(
                 @"C:\Users\Adam\Documents\visual studio 2015\Projects\ProjectIndividual\Grids\grid1.grid");
+
             Assert.AreEqual(testGrid.VisitedCells.Count, ret.VisitedCells.Count);
             Assert.AreEqual(testGrid.Height, ret.Height);
         }

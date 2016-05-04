@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectIndividual.UI.Views"
         xmlns:customControls="clr-namespace:ProjectIndividual.UI.CustomControls"
+        xmlns:viewModels="clr-namespace:ProjectIndividual.UI.ViewModels"
         mc:Ignorable="d"
         Title="Rule" Height="300" Width="1108.3">
+    <Window.Resources>
+        <viewModels:RulesSetViewModel x:Key="rulesSet"></viewModels:RulesSetViewModel>
+    </Window.Resources>
     <Grid>
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
@@ -16,15 +20,21 @@
                 <Button Content="Back" HorizontalAlignment="Right" Width="49"></Button>
             </Grid>
             <Separator DockPanel.Dock="Top" Height="8"></Separator>
-            <Grid Height="237" VerticalAlignment="Bottom">
-                <ListView x:Name="listRules" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top">
-                    <ListViewItem>
-                        <customControls:RuleControl></customControls:RuleControl>
-                    </ListViewItem>
+            <StackPanel>
+                <Grid Width="167" HorizontalAlignment="Left" >
+                    <Label HorizontalAlignment="Left" Content="Name of set:"></Label>
+                    <TextBox x:Name="tbRuleName" Margin="82,0,-146,0" HorizontalAlignment="Left" Width="231"
+                             SourceUpdated="OnContentChanged" Text="{Binding RuleName, Mode=TwoWay, Source={StaticResource rulesSet}}" />
+                </Grid>
+                <ListView ItemsSource="{Binding Rules , Source={StaticResource rulesSet}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <customControls:RuleControl ></customControls:RuleControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
-                <Button Content="Add rule" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Margin="0,50,0,0"/>
-
-            </Grid>
+                <Button Content="Add rule" Height="50" HorizontalAlignment="Left" Width="100"/>
+            </StackPanel>
         </DockPanel>
 
 

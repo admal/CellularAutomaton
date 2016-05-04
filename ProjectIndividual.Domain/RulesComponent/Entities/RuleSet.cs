@@ -12,6 +12,11 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         private IList<Rule> rules;
         public string Name { get; set; }
 
+        public IList<Rule> Rules
+        {
+            get { return rules; }
+        }
+
         public RulesSet()
         {
             rules = new List<Rule>();

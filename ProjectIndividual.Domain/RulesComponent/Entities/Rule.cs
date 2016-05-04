@@ -13,11 +13,6 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         private CellState inputState;
         private int priority;
 
-        public CellState InputState
-        {
-            get { return inputState; }
-        }
-
         public Rule(IList<Statement> statements, CellState retState, int priority, CellState inputState)
         {
             this.statements = statements;
@@ -26,9 +21,27 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
             this.inputState = inputState;
         }
 
+        public IList<Statement> Statements
+        {
+            get { return statements; }
+            set { statements = value; }
+        }
+
+        public CellState RetState
+        {
+            get { return retState; }
+            set { retState = value; }
+        }
+
+        public CellState InputState
+        {
+            get { return inputState; }
+            set { inputState = value; }
+        }
+
         public int Priority
         {
-            get { return priority; }
+            get { return priority; } set { priority = value; }
         }
 
         public CellState Apply(Grid grid, Cell currCell)

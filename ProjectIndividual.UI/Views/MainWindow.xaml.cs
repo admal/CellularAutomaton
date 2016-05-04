@@ -11,11 +11,10 @@ namespace ProjectIndividual.UI.Views
         {
             InitializeComponent();
         }
-
-        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+#warning TMP!!!!
+        private void SeeAllClick(object sender, RoutedEventArgs e)
         {
-            var win = new RuleWindow();
-            win.Show();
+            uiScaleSlider.Value = 1;
         }
     }
 }

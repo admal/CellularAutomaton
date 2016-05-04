@@ -23,6 +23,7 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         public Sentence LogicalSentence
         {
             get { return logicalSentence; }
+            set { logicalSentence = value; }
         }
     }
 

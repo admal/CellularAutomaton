@@ -24,19 +24,27 @@
     <Grid>
         <DockPanel LastChildFill="True">
             <Button Background="Brown" Content="X" Width="21"></Button>
-            <TextBox Width="36" x:Name="tbPriority" DockPanel.Dock="Left"></TextBox>
+            <TextBox Width="36" x:Name="tbPriority" DockPanel.Dock="Left" Text="{Binding Priority}"></TextBox>
             <Separator DockPanel.Dock="Left" Height="30px" />
             <Label Background="AliceBlue" Content="If current cell state is" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
-            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="53"></ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" SelectedItem="{Binding InputState}" Width="53"></ComboBox>
             <Label Content="and there are" Background="AliceBlue"></Label>
 
-            <TextBox  HorizontalAlignment="Left" Width="35" x:Name="tbNumOcells" ></TextBox>
+            <!--<TextBox  HorizontalAlignment="Left" Width="35" x:Name="tbNumOcells" ></TextBox>
             <Label Background="AliceBlue" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="cells"></Label>
             <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"></ComboBox>
             <Label Background="AliceBlue" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="in"></Label>
-            <ComboBox HorizontalAlignment="Left"  ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"></ComboBox>
+            <ComboBox HorizontalAlignment="Left"  ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"></ComboBox>-->
             <!--<local:StatementControl></local:StatementControl>-->
-            <ListView x:Name="listStatements"></ListView>
+            <ListView x:Name="listStatements" ItemsSource="{Binding Statements}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:StatementControl></local:StatementControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Content="then current cell becomes"></Label>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" SelectedItem="{Binding RetState}" Width="53"></ComboBox>
         </DockPanel>
     </Grid>
 </UserControl>

@@ -27,11 +27,14 @@ namespace ProjectIndividual.UI.ViewModels
         private uint generation = 0;
         public  bool isStarted { get; set; } = false;
         public bool isPaused { get; set; } = false;
-        public int Scale { get; set; } = 1;
         private EditableImage gridImage;
         private BasicCommand openRulesCommand;
         private BasicCommand loadGridCommand;
         private BasicCommand startGridCommand;
+        private BasicCommand jumpStepsCommand;
+        private BasicCommand nextStepCommand;
+        private BasicCommand seeAllCellsCommand;
+
         private ComputingThread computingThread;
 
         #endregion
@@ -41,6 +44,14 @@ namespace ProjectIndividual.UI.ViewModels
         public BasicCommand OpenLoadGridWindowCommand { get { return loadGridCommand; } }
         public BasicCommand StartGridCommand { get { return startGridCommand; } }
 
+        public BasicCommand JumpStepsCommand{get { return jumpStepsCommand; }}
+
+        public BasicCommand NextStepCommand{get { return nextStepCommand; }}
+
+        public BasicCommand SeeAllCellsCommand{get { return seeAllCellsCommand; }}
+
+        public uint JumpSteps { get; set; } =0;
+    
         /// <summary>
         /// True when rules are loaded
         /// </summary>
@@ -83,6 +94,17 @@ namespace ProjectIndividual.UI.ViewModels
             openRulesCommand = new BasicCommand(this.OpenRulesWindow, () => !isStarted);
             loadGridCommand = new BasicCommand(this.OpenLoadGridWindow, () => !isStarted);
             startGridCommand = new BasicCommand(StartPauseComputingGrid, ()=>true);
+            jumpStepsCommand = new BasicCommand(JumpNSteps, ()=>true );
+            nextStepCommand = new BasicCommand(Update,()=>true);
+            //seeAllCellsCommand = new BasicCommand(SeeAllCeels, ()=>true );
+        }
+
+        private void JumpNSteps()
+        {
+            for (int i = 0; i < JumpSteps; i++)
+            {
+                Update();
+            }
         }
 
 
@@ -121,7 +143,15 @@ namespace ProjectIndividual.UI.ViewModels
         }
         public void OpenRulesWindow()
         {
-            var rulesWindow = new RuleWindow();
+            RuleWindow rulesWindow;
+            if (isStartable)
+            {
+                rulesWindow = new RuleWindow(grid.Rules);
+            }
+            else
+            {
+                rulesWindow = new RuleWindow();
+            }
             rulesWindow.Show();
         }
         private void StartPauseComputingGrid()

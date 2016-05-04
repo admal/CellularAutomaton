@@ -12,42 +12,66 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         /// <summary>
         /// Number of cells in given state that should be in the considered area to GetValue() can return true.
         /// </summary>
-        private int NumOfCells;
+        private int numOfCells;
         /// <summary>
         /// Searching for that state in the given Area
         /// </summary>
-        private CellState SeekState;
+        private CellState seekState;
         /// <summary>
         /// What area should be considered for evaluation of next state of cell.
         /// </summary>
-        private Area ConsideredArea;
+        private Area consideredArea;
         /// <summary>
         /// Index (from 1 to 5) of row or column, if whole neghbourhood is considered than it is 0.
         /// </summary>
-        private int Num;
+        private int num;
 
         public Sentence(int numOfCells, CellState seekState, Area consideredArea, int num)
         {
-            NumOfCells = numOfCells;
-            SeekState = seekState;
-            ConsideredArea = consideredArea;
-            Num = num;
+            this.numOfCells = numOfCells;
+            this.seekState = seekState;
+            this.consideredArea = consideredArea;
+            this.num = num;
+        }
+
+        public int NumOfCells
+        {
+            get { return numOfCells; }
+            set { numOfCells = value; }
+        }
+
+        public CellState SeekState
+        {
+            get { return seekState; }
+            set { seekState = value; }
+        }
+
+        public Area ConsideredArea
+        {
+            get { return consideredArea; }
+            set { consideredArea = value; }
+        }
+
+        public int Num
+        {
+            get { return num; }
+            set { num = value; }
         }
 
         public bool GetValue(Grid cells, Cell currCell)
         {
             int count = 0;
-            switch (ConsideredArea)
+            switch (consideredArea)
             {
                     case Area.Column:
                     for (int i = -2; i <= 2; i++)
                     {
-                        var currPos = new Position(currCell.X + Num - 3, currCell.Y + i);
+                        var currPos = new Position(currCell.X + num - 3, currCell.Y + i);
                         if (Equals(currPos, currCell.Position)) //skip itself
                         {
                             continue;
                         }
-                        if (cells.GetCellState( currPos ) == SeekState)
+                        if (cells.GetCellState( currPos ) == seekState)
                         //Num-3 because columns are indexed from 1 and currCell is in the middle of neighbouorhood (no in the corner)
                         {
                             count++;
@@ -57,12 +81,12 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                     case Area.Row:
                     for (int i = -2; i <= 2; i++)
                     {
-                        var currPos = new Position(currCell.X + i, currCell.Y + Num - 3);
+                        var currPos = new Position(currCell.X + i, currCell.Y + num - 3);
                         if (Equals(currPos, currCell.Position)) //skip itself
                         {
                             continue;
                         }
-                        if (cells.GetCellState(currPos) == SeekState)
+                        if (cells.GetCellState(currPos) == seekState)
                         //Num-3 because rows are indexed from 1 and currCell is in the middle of neighbouorhood (no in the corner)
                         {
                             count++;
@@ -79,7 +103,7 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                                 continue;
                             }
                             var tmp = cells.GetCellState(currCell.X + i, currCell.Y + j);
-                            if (tmp == SeekState)
+                            if (tmp == seekState)
                             {
                                 count++;
                             }
@@ -87,7 +111,7 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                     }
                     break;
             }
-            return NumOfCells == count;
+            return numOfCells == count;
         }
     }
 

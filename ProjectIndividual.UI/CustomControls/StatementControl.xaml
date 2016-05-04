@@ -27,12 +27,18 @@
         </ObjectDataProvider>
     </UserControl.Resources>
     <Grid Background="AliceBlue">
-        <ComboBox Width="61" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource LogicalConnectorEnum}}" ></ComboBox>
-        <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" ></TextBox>
+        <ComboBox Width="61" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource LogicalConnectorEnum}}" 
+                  SelectedItem="{Binding Connector}" ></ComboBox>
+        <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" 
+                Text="{Binding LogicalSentence.NumOfCells}" ></TextBox>
         <Label HorizontalAlignment="Left" Margin="106,0,0,0" VerticalContentAlignment="Center" Content="cells"></Label>
-        <ComboBox HorizontalAlignment="Left" Margin="144,0,0,0" ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"></ComboBox>
+        <ComboBox HorizontalAlignment="Left" Margin="144,0,0,0" 
+                  ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"
+                  SelectedItem="{Binding LogicalSentence.SeekState}" ></ComboBox>
         <Label HorizontalAlignment="Left" Margin="243,0,0,0" VerticalContentAlignment="Center" Content="in"></Label>
-        <ComboBox HorizontalAlignment="Left" Margin="268,0,0,0" ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"></ComboBox>
+        <ComboBox HorizontalAlignment="Left" Margin="268,0,0,0" 
+                  ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"
+                  SelectedItem="{Binding LogicalSentence.ConsideredArea}"></ComboBox>
     </Grid>
 </UserControl>
 

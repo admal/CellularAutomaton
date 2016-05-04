@@ -33,7 +33,7 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                <Button Content="Add rule" Height="50" HorizontalAlignment="Left" Width="100"/>
+                <Button Content="Add rule" Height="50" HorizontalAlignment="Left" Width="100" Command="{Binding AddRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}"/>
             </StackPanel>
         </DockPanel>
 

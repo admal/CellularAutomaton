@@ -13,6 +13,10 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         private CellState inputState;
         private int priority;
 
+        public Rule()
+        {
+            statements = new List<Statement>();
+        }
         public Rule(IList<Statement> statements, CellState retState, int priority, CellState inputState)
         {
             this.statements = statements;

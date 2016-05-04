@@ -21,7 +21,9 @@
                     <!--<MenuItem Header="_Load rules"></MenuItem>-->
                     <MenuItem Header="_Rules" Command="{Binding OpenRulesCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
                     <MenuItem Header="_Load grid" Command="{Binding OpenLoadGridWindowCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></MenuItem>
-                    <MenuItem Header="_Random grid"></MenuItem>
+                    <MenuItem Header="_Reset grid" Command="{Binding ResetGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
+                    <MenuItem Header="_Save current grid" Command="{Binding SaveCurrentGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"  IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></MenuItem>
+                    <!--<MenuItem Header="_Random grid"></MenuItem>-->
                 </MenuItem>
                 <MenuItem Header="_Info" ></MenuItem>
             </Menu>
@@ -33,7 +35,7 @@
                 <!--<Button Content="Zoom in" IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
                 <Button Content="Zoom out"  IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>-->
                 <Slider x:Name="uiScaleSlider" ToolTip="Zoom" Value="1" Minimum="1" Maximum="10" VerticalAlignment="Center"
-                        IsEnabled="{Binding isStarted,Source={StaticResource mainGrid}}" />
+                         />
                 <Button Content="See all" ToolTip="See all living cells"  
                         IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}" Click="SeeAllClick" ></Button>
                 <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Jump several &#xD;&#xA;steps ahead:"></Label>
@@ -44,7 +46,7 @@
                         Command="{Binding JumpStepsCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></Button>
             </UniformGrid>
             <UniformGrid DockPanel.Dock="Top" Rows="1">
-                <Label HorizontalContentAlignment="Right" Content="Living cells: "></Label>
+                <Label HorizontalContentAlignment="Right" Content="Visited cells: "></Label>
                 <Label x:Name="lblLivingCells" Content="{Binding LivingCellsCount, Source={StaticResource mainGrid}}"></Label>
                 <Label HorizontalContentAlignment="Right" Content="Generation: "></Label>
                 <Label x:Name="lblGeneration" Content="{Binding Generation, Source={StaticResource mainGrid}}"></Label>

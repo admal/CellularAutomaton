@@ -34,6 +34,8 @@ namespace ProjectIndividual.UI.ViewModels
         private BasicCommand jumpStepsCommand;
         private BasicCommand nextStepCommand;
         private BasicCommand seeAllCellsCommand;
+        private BasicCommand resetGridCommand;
+        private BasicCommand saveCurrentGridCommand;
 
         private ComputingThread computingThread;
 
@@ -49,6 +51,13 @@ namespace ProjectIndividual.UI.ViewModels
         public BasicCommand NextStepCommand{get { return nextStepCommand; }}
 
         public BasicCommand SeeAllCellsCommand{get { return seeAllCellsCommand; }}
+
+        public BasicCommand ResetGridCommand{get { return resetGridCommand; }}
+
+        public BasicCommand SaveCurrentGridCommand
+        {
+            get { return saveCurrentGridCommand; }
+        }
 
         public uint JumpSteps { get; set; } =0;
     
@@ -96,7 +105,36 @@ namespace ProjectIndividual.UI.ViewModels
             startGridCommand = new BasicCommand(StartPauseComputingGrid, ()=>true);
             jumpStepsCommand = new BasicCommand(JumpNSteps, ()=>true );
             nextStepCommand = new BasicCommand(Update,()=>true);
+            resetGridCommand = new BasicCommand(ResetGrid, ()=>true );
+            saveCurrentGridCommand = new BasicCommand(SaveCurrentGrid, ()=>true );
             //seeAllCellsCommand = new BasicCommand(SeeAllCeels, ()=>true );
+        }
+
+        private void SaveCurrentGrid()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Grid file (*.grid)|*.grid";
+            if (dialog.ShowDialog() == true)
+            {
+                FileCreator.WriteToBinaryFile(dialog.FileName, grid);
+            }
+        }
+
+        private void ResetGrid()
+        {
+            grid = new Grid();
+            gridImage = null;
+            generation = 0;
+            isStarted = false;
+            isPaused = false;
+
+            RaisePropertyChanged("Generation");
+            RaisePropertyChanged("Rules");
+            RaisePropertyChanged("LivingCellsCount");
+            RaisePropertyChanged("GridBrush");
+            RaisePropertyChanged("isStartable");
+            RaisePropertyChanged("isPaused");
+            RaisePropertyChanged("isStarted");
         }
 
         private void JumpNSteps()

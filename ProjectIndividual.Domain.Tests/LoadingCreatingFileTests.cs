@@ -26,6 +26,37 @@ namespace ProjectIndividual.Domain.Tests
             FileCreator.WriteToBinaryFile(
                 @"C:\Users\Adam\Documents\visual studio 2015\Projects\ProjectIndividual\Grids\grid1.grid", testGrid);
 
+
+
+            var initCells = new List<Cell>();
+            initCells.Add(new Cell(new Position(7, 3), CellState.Alive));
+            initCells.Add(new Cell(new Position(10, 4), CellState.Alive));
+            initCells.Add(new Cell(new Position(11, 4), CellState.Alive));
+            initCells.Add(new Cell(new Position(11, 5), CellState.Dead));
+            initCells.Add(new Cell(new Position(10, 5), CellState.Dead));
+            initCells.Add(new Cell(new Position(12, 5), CellState.Dead));
+
+            //sentence1: 3 dead cells in the whole neighbourhood
+            Sentence sentence1 = new Sentence(3, CellState.Dead, Area.Neghbourhood, 0);
+            //sentence2: 2 alive cells in the 2nd row
+            Sentence sentence2 = new Sentence(2, CellState.Alive, Area.Row, 2);
+            //sentence2: 1 alive cell in the 1st column
+            Sentence sentence3 = new Sentence(1, CellState.Alive, Area.Column, 1);
+
+            var statements = new List<Statement>();
+            statements.Add(new Statement(null, sentence1));
+            statements.Add(new Statement(LogicalConnector.Or, sentence2));
+            statements.Add(new Statement(LogicalConnector.Or, sentence3));
+            var rule1 = new Rule(statements, CellState.Dead, 1, CellState.Any);
+            var rule2 = new Rule(statements, CellState.Alive, 2, CellState.Any);
+            var rules = new List<Rule>();
+            rules.Add(rule2);
+            rules.Add(rule1);
+            var set = new RulesSet(rules);
+            set.Name = "Test rules";
+            Grid complexGrid = new Grid(initCells, set );
+            FileCreator.WriteToBinaryFile(@"C:\Users\Adam\Documents\visual studio 2015\Projects\ProjectIndividual\Grids\grid2.grid",complexGrid);
+
         }
         [TestMethod]
 

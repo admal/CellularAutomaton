@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Media.Imaging;
+using ProjectIndividual.Domain.GridComponent.Entities;
 
 namespace ProjectIndividual.UI.Helpers
 {
@@ -13,19 +14,52 @@ namespace ProjectIndividual.UI.Helpers
     /// </summary>
     public class EditableImage
     {
+        private int OFFSET_X = (int)System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+        private int OFFSET_Y = (int)System.Windows.SystemParameters.PrimaryScreenHeight / 2;
         /// <summary>
         /// loaded 2d array of pixels of the image
         /// </summary>
         protected RgbPixel[,] pixels;
         protected int width;
         protected int height;
-
+        private Grid grid;
         public int ImageWidth { get { return width; } }
         public int ImageHeight { get { return height; } }
 
         public RgbPixel[,] Pixels { get { return pixels; } }
 
         protected Bitmap bitmap = null;
+
+        public void UpdateImage()
+        {
+            foreach (var cellEntry in grid.VisitedCells)
+            {
+                RgbPixel pixel;
+                switch (cellEntry.Value.State)
+                {
+                    case CellState.Alive:
+                        pixel = new RgbPixel(255,0,0);
+                        break;
+                    case CellState.Dead:
+                        pixel = new RgbPixel(0,0,0);
+                        break;
+                    case CellState.Unvisited:
+                        pixel = new RgbPixel(255, 255, 255);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+
+                PutPixel((int)cellEntry.Key.X + OFFSET_X, (int)cellEntry.Key.Y + OFFSET_Y, pixel);
+            }
+        }
+
+        public EditableImage(int width, int height, Grid grid) : this(width, height)
+        {
+            this.grid = grid;
+            UpdateImage();
+        }
 
         public EditableImage(int width, int height)
         {
@@ -63,21 +97,20 @@ namespace ProjectIndividual.UI.Helpers
 
                     imageData.Add(pixels[j, i].Alpha);
                 }
-
             }
 
             Bitmap bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
 
-            BitmapData bmData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            BitmapData bmData = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height), ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             IntPtr pNative = bmData.Scan0;
-            Marshal.Copy(imageData.ToArray(), 0, pNative, width * height * ch);
+            Marshal.Copy(imageData.ToArray(), 0, pNative, width*height*ch);
             bitmap.UnlockBits(bmData);
 
             this.bitmap = bitmap;
             return bitmap;
         }
+
         public System.Windows.Media.ImageSource GetImageSource()
         {
             using (MemoryStream memory = new MemoryStream())
@@ -98,10 +131,10 @@ namespace ProjectIndividual.UI.Helpers
         {
             if (x >= width || y >= height || y < 0 || x < 0)
             {
-                throw new Exception("Out of picture!");
+                //throw new Exception("Out of picture!");
+                return;
             }
             pixels[x, y] = pixel;
         }
-
     }
 }

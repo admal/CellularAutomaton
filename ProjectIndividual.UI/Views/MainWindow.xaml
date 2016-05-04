@@ -18,18 +18,21 @@
                 <MenuItem Header="_File">
                     <!--<MenuItem Header="_Setup"></MenuItem>-->
                     <!--Do not know why it is-->
-                    <MenuItem Header="_Choose rules"></MenuItem>
-                    <MenuItem Header="_Create rules" Command="{Binding OpenRulesWindowCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
-                    <MenuItem Header="_Choose grid"></MenuItem>
+                    <!--<MenuItem Header="_Load rules"></MenuItem>-->
+                    <MenuItem Header="_Rules" Command="{Binding OpenRulesCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
+                    <MenuItem Header="_Load grid" Command="{Binding OpenLoadGridWindowCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></MenuItem>
                     <MenuItem Header="_Random grid"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Info" ></MenuItem>
             </Menu>
             <UniformGrid Height="50px" DockPanel.Dock="Bottom" Rows="1" >
-                <Button Content="Run/Stop" IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="Run/Stop" 
+                        IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}" Command="{Binding StartGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"
+                        ></Button>
                 <Button Content="Next step" IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></Button>
-                <Button Content="Zoom in" IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
-                <Button Content="Zoom out"  IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
+                <!--<Button Content="Zoom in" IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
+                <Button Content="Zoom out"  IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>-->
+                <Slider x:Name="uiScaleSlider" ToolTip="Zoom" Value="1" Minimum="1" Maximum="4" VerticalAlignment="Center" />
                 <Button Content="See all" ToolTip="See all living cells"  
                         IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
                 <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Jump several &#xD;&#xA;steps ahead:"></Label>
@@ -45,8 +48,20 @@
                 <Label HorizontalContentAlignment="Right" Content="Rule:"></Label>
                 <Label x:Name="lblRuleName" Content="{Binding RulesName, Source={StaticResource mainGrid}}"></Label>
             </UniformGrid>
-            <Canvas x:Name="canGrid" Background="{Binding GridBitmap., Source={StaticResource mainGrid}}">
-            </Canvas>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.LayoutTransform >
+                        <ScaleTransform CenterX="0" CenterY="0"  ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
+                        ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"
+                    />
+                    </Grid.LayoutTransform>
+                    <Canvas x:Name="canGrid" 
+                            Width="{Binding ScreenWidth, Source={StaticResource mainGrid}}" 
+                            Height="{Binding ScreenHeight, Source={StaticResource mainGrid}}" 
+                            Background="{Binding GridBrush, Source={StaticResource mainGrid}}">
+                    </Canvas>
+                </Grid>
+            </ScrollViewer>
         </DockPanel>
     </Grid>
 </Window>

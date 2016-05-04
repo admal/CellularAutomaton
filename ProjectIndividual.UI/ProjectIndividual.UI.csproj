@@ -62,6 +62,7 @@
     <Compile Include="CustomControls\StatementControl.xaml.cs">
       <DependentUpon>StatementControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomThreads\ComputingThread.cs" />
     <Compile Include="Helpers\EditableImage.cs" />
     <Compile Include="Helpers\RgbPixel.cs" />
     <Compile Include="Properties\Annotations.cs" />

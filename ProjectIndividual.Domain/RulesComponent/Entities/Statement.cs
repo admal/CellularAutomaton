@@ -1,5 +1,8 @@
-﻿namespace ProjectIndividual.Domain.RulesComponent.Entities
+﻿using System;
+
+namespace ProjectIndividual.Domain.RulesComponent.Entities
 {
+    [Serializable]
     public class Statement
     {
         private LogicalConnector? connector;

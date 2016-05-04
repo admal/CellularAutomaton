@@ -1,5 +1,8 @@
-﻿namespace ProjectIndividual.Domain.GridComponent.Entities
+﻿using System;
+
+namespace ProjectIndividual.Domain.GridComponent.Entities
 {
+    [Serializable]
     public class Position
     {
         long x, y;

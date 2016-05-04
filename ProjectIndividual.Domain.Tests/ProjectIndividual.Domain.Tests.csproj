@@ -55,6 +55,7 @@
     <Compile Include="RulesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GridTests.cs" />
+    <Compile Include="LoadingCreatingFileTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectIndividual.Domain\ProjectIndividual.Domain.csproj">

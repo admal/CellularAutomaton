@@ -5,6 +5,7 @@ using ProjectIndividual.Domain.RulesComponent.Entities;
 
 namespace ProjectIndividual.Domain.GridComponent.Entities
 {
+    [Serializable]
     public class Grid
     {
         private const long MAX_POSITION = 100000;

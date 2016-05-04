@@ -38,16 +38,16 @@ namespace ProjectIndividual.UI.ViewModels
             get { return grid.Rules != null; }
         }
 
-        public ImageBrush Brush
-        {
-            get
-            {
+        //public ImageBrush Brush
+        //{
+        //    get
+        //    {
                 
-                ImageBrush brush =new ImageBrush();
-                BitmapImage img = new BitmapImage();
-                brush.ImageSource = 
-            }
-        }
+        //        ImageBrush brush =new ImageBrush();
+        //        BitmapImage img = new BitmapImage();
+        //        brush.ImageSource = 
+        //    }
+        //}
         public int LivingCellsCount
         {
             get { return grid.VisitedCells.Values.Select(c => c.State == CellState.Alive).Count(); }

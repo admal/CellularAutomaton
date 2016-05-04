@@ -5,6 +5,7 @@ using ProjectIndividual.Domain.GridComponent.Entities;
 
 namespace ProjectIndividual.Domain.RulesComponent.Entities
 {
+    [Serializable]
     public class Rule
     {
         private IList<Statement> statements;

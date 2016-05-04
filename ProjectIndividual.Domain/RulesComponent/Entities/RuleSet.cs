@@ -6,6 +6,7 @@ using ProjectIndividual.Domain.GridComponent.Entities;
 
 namespace ProjectIndividual.Domain.RulesComponent.Entities
 {
+    [Serializable]
     public class RulesSet
     {
         private IList<Rule> rules;

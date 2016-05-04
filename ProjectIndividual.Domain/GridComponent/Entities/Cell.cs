@@ -2,6 +2,7 @@
 
 namespace ProjectIndividual.Domain.GridComponent.Entities
 {
+    [Serializable]
     public class Cell
     {
         private Position position;

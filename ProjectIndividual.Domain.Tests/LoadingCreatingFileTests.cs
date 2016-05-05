@@ -59,6 +59,41 @@ namespace ProjectIndividual.Domain.Tests
 
         }
         [TestMethod]
+        public void CreateRuleSet()
+        {
+            Sentence sentence1 = new Sentence(2,CellState.Alive, Area.Column, 3); //if alive and sentence1 then dead
+
+            Sentence sentence2 = new Sentence(3, CellState.Dead, Area.Column, 1); //if dead and sentence3 then alive
+
+            var rule1 = new Rule(new List<Statement>() {new Statement(null,sentence1)},CellState.Dead, 1,CellState.Alive);
+            //var rule2 = new Rule(new List<Statement>() { new Statement(null, sentence2) }, CellState.Alive, 2, CellState.Dead);
+            var rule3 = new Rule(new List<Statement>() { new Statement(null, sentence2) }, CellState.Alive, 2, CellState.Unvisited);
+
+            RulesSet set = new RulesSet(new List<Rule>() {rule1, rule3});
+            set.Name = "Moving column rule";
+            FileCreator.WriteToBinaryFile(@"C:\Users\Adam\Source\Repos\CellularAutomaton\Rules\rule2.rules",set);
+        }
+        [TestMethod]
+        public void CreateGridFile()
+        {
+            var initCells = new List<Cell>();
+            initCells.Add(new Cell(new Position(0, 0), CellState.Alive));
+            initCells.Add(new Cell(new Position(0, 1), CellState.Alive));
+            initCells.Add(new Cell(new Position(0, 2), CellState.Alive));
+            initCells.Add(new Cell(new Position(0, 15), CellState.Alive));
+            initCells.Add(new Cell(new Position(0, 16), CellState.Alive));
+            initCells.Add(new Cell(new Position(0, 17), CellState.Alive));
+
+            initCells.Add(new Cell(new Position(-2, 0), CellState.Dead));
+            initCells.Add(new Cell(new Position(-2, 1), CellState.Dead));
+            initCells.Add(new Cell(new Position(-2, 2), CellState.Dead));
+            initCells.Add(new Cell(new Position(-2, 15), CellState.Dead));
+            initCells.Add(new Cell(new Position(-2, 16), CellState.Dead));
+            initCells.Add(new Cell(new Position(-2, 17), CellState.Dead));
+            Grid grid = new Grid(initCells);
+            FileCreator.WriteToBinaryFile(@"C:\Users\Adam\Source\Repos\CellularAutomaton\Grids\otherGrid.grid", grid);
+        }
+        [TestMethod]
 
         [DeploymentItem(@"C:\Users\Adam\Documents\visual studio 2015\Projects\ProjectIndividual\Grids\grid1.grid","targetFolder")]
         public void LoadFile()

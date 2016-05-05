@@ -24,9 +24,10 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
             get { return state; }
         }
 
-        public void Update(Grid grid)
+        public CellState Update(Grid grid)
         {
-            state = grid.Rules.Apply(grid, this);
+            var retState = grid.Rules.Apply(grid, this);
+            return retState;
         }
 
         public override string ToString()

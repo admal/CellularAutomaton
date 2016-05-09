@@ -15,6 +15,7 @@ namespace ProjectIndividual.UI.ViewModels
     public class RulesSetViewModel : INotifyPropertyChanged
     {
         #region Fields
+        public GridViewModel ViewModel;
         public RulesSet rulesSet = new RulesSet();
         private ObservableCollection<RuleViewModel> rules;
         private BasicCommand addRuleCommand;
@@ -68,7 +69,7 @@ namespace ProjectIndividual.UI.ViewModels
 
         private void ApplyRulesToGrid()
         {
-            ViewModel.grid.Rules = rules;
+            ViewModel.grid.Rules = rulesSet;
             ViewModel.RaisePropertyChanged("isStartable");
             ViewModel.RaisePropertyChanged("RulesName");
             ViewModel.RaisePropertyChanged("Rules");
@@ -87,7 +88,7 @@ namespace ProjectIndividual.UI.ViewModels
             bool? userClickedOK = dialog.ShowDialog();
             if (userClickedOK == true)
             {
-                rules = FileLoader.ReadFromBinaryFile<RulesSet>(dialog.FileName);
+                rulesSet = FileLoader.ReadFromBinaryFile<RulesSet>(dialog.FileName);
                 RaisePropertyChanged("RuleName");
                 RaisePropertyChanged("Rules");
                 MessageBox.Show("Rules loaded properly!");
@@ -111,7 +112,7 @@ namespace ProjectIndividual.UI.ViewModels
 
         private void ClearRuleSet()
         {
-            this.rules = new RulesSet();
+            this.rulesSet = new RulesSet();
             RaisePropertyChanged("RuleName");
             RaisePropertyChanged("Rules");
         }

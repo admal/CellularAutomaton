@@ -12,6 +12,7 @@ namespace ProjectIndividual.UI.CustomThreads
     public class ComputingThread
     {
         private bool isRunning = true;
+        private bool isPaused = false;
         private GridViewModel gridViewModel;
 
         public ComputingThread(GridViewModel gridViewModel)
@@ -23,23 +24,28 @@ namespace ProjectIndividual.UI.CustomThreads
         {
             Stopwatch stopwatch = new Stopwatch();
 
-            while (true)
+            while (isRunning)
             {
-                if (isRunning)
+                if (isPaused)
                 {
-                    stopwatch.Restart();
-
-                    gridViewModel.Update();
-                    var elapsed = stopwatch.ElapsedMilliseconds;
-                    Thread.Sleep(elapsed < 1000 ? 1000 - (int) elapsed : 0);
+                    continue;
                 }
+                stopwatch.Restart();
+                gridViewModel.Update();
+                var elapsed = stopwatch.ElapsedMilliseconds;
+                Thread.Sleep(elapsed < 1000 ? 1000 - (int) elapsed : 0);
             }
             
         }
 
         public void RunPause()
         {
-            isRunning = !isRunning;
+            isPaused = !isPaused;
+        }
+
+        public void Stop()
+        {
+            isRunning = false;
         }
     }
 }

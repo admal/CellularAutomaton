@@ -39,6 +39,7 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         public RulesSet Rules
         {
             get { return rules; }
+            set { rules = value; }
         }
 
         public Grid(Cell[] initCells, RulesSet set) : this(initCells.ToList(), set)
@@ -90,10 +91,11 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
 
         private void ComputeNextGeneration()
         {
-            newCellsGeneration = visitedCells;
-            foreach (var entry in newCellsGeneration)
+            //newCellsGeneration = visitedCells;
+            foreach (var entry in visitedCells)
             {
-                newCellsGeneration[entry.Key].Update(this);
+                Cell newCell = new Cell(entry.Value.Position, entry.Value.Update(this));
+                newCellsGeneration.Add(newCell.Position, newCell);
             }
         }
 
@@ -113,7 +115,8 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         {
             AddNeighbours();
             ComputeNextGeneration();
-            visitedCells = newCellsGeneration;
+            visitedCells = new Dictionary<Position, Cell>(newCellsGeneration);
+            newCellsGeneration.Clear();
         }
         /// <summary>
         /// Add not added yet neighbours of visited cells.

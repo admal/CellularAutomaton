@@ -27,9 +27,7 @@ namespace ProjectIndividual.UI.ViewModels
     public class GridViewModel : INotifyPropertyChanged
     {
         #region Fields
-
-        private Grid grid;
-        
+        public Grid grid;
         private uint generation = 0;
         public  bool isStarted { get; set; } = false;
         public bool isPaused { get; set; } = false;
@@ -42,6 +40,7 @@ namespace ProjectIndividual.UI.ViewModels
         private BasicCommand seeAllCellsCommand;
         private BasicCommand resetGridCommand;
         private BasicCommand saveCurrentGridCommand;
+        private BasicCommand closeAppCommand;
 
         private ComputingThread computingThread;
         private uint size = 1;
@@ -67,8 +66,13 @@ namespace ProjectIndividual.UI.ViewModels
             get { return saveCurrentGridCommand; }
         }
 
-        public uint JumpSteps { get; set; } =0;
+        public BasicCommand CloseAppCommand
+        {
+            get { return closeAppCommand; }
+        }
 
+        public uint JumpSteps { get; set; } =0;
+    
         public uint Scale
         {
             get
@@ -96,7 +100,7 @@ namespace ProjectIndividual.UI.ViewModels
                     grid.ImportantCells.Select(c => new CellViewModel(c,size*scale)));
                 return rects;
             }
-        }  
+        }
         public int ScreenWidth { get; } = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
         public int ScreenHeight { get; } = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
         public int LivingCellsCount
@@ -122,42 +126,12 @@ namespace ProjectIndividual.UI.ViewModels
             nextStepCommand = new BasicCommand(Update,()=>true);
             resetGridCommand = new BasicCommand(ResetGrid, ()=>true );
             saveCurrentGridCommand = new BasicCommand(SaveCurrentGrid, ()=>true );
-            //seeAllCellsCommand = new BasicCommand(SeeAllCeels, ()=>true );
+            closeAppCommand = new BasicCommand(ExitApplication, () => true );
         }
 
-        private void SaveCurrentGrid()
+        private void ExitApplication()
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Grid file (*.grid)|*.grid";
-            if (dialog.ShowDialog() == true)
-            {
-                FileCreator.WriteToBinaryFile(dialog.FileName, grid);
-            }
-        }
-
-        private void ResetGrid()
-        {
-            grid = new Grid();
-            gridImage = null;
-            generation = 0;
-            isStarted = false;
-            isPaused = false;
-
-            RaisePropertyChanged("Generation");
-            RaisePropertyChanged("Rules");
-            RaisePropertyChanged("LivingCellsCount");
-            RaisePropertyChanged("Rectangles");
-            RaisePropertyChanged("isStartable");
-            RaisePropertyChanged("isPaused");
-            RaisePropertyChanged("isStarted");
-        }
-
-        private void JumpNSteps()
-        {
-            for (int i = 0; i < JumpSteps; i++)
-            {
-                Update();
-            }
+            computingThread.Stop();
         }
 
 
@@ -175,6 +149,41 @@ namespace ProjectIndividual.UI.ViewModels
         #endregion
 
         #region Methods
+        private void SaveCurrentGrid()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Grid file (*.grid)|*.grid";
+            if (dialog.ShowDialog() == true)
+            {
+                FileCreator.WriteToBinaryFile(dialog.FileName, grid);
+            }
+        }
+
+        private void ResetGrid()
+        {
+            grid = new Grid();
+            gridImage = null;
+            generation = 0;
+            isStarted = false;
+            isPaused = false;
+            computingThread.Stop();
+            RaisePropertyChanged("Generation");
+            RaisePropertyChanged("Rules");
+            RaisePropertyChanged("LivingCellsCount");
+            RaisePropertyChanged("Rectangles");
+            RaisePropertyChanged("isStartable");
+            RaisePropertyChanged("isPaused");
+            RaisePropertyChanged("isStarted");
+        }
+
+        private void JumpNSteps()
+        {
+            for (int i = 0; i < JumpSteps; i++)
+            {
+                Update();
+            }
+        }
+
         private void OpenLoadGridWindow()
         {
             var dialog = new OpenFileDialog();
@@ -199,11 +208,14 @@ namespace ProjectIndividual.UI.ViewModels
             RuleWindow rulesWindow;
             if (isStartable)
             {
-                rulesWindow = new RuleWindow(grid.Rules);
+                //   rulesWindow = new RuleWindow(grid.Rules);
+                rulesWindow = new RuleWindow(this);
             }
             else
             {
-                rulesWindow = new RuleWindow();
+                grid.Rules = new RulesSet();
+                // rulesWindow = new RuleWindow(grid.Rules);
+                rulesWindow = new RuleWindow(this);
             }
             rulesWindow.Show();
         }
@@ -238,7 +250,7 @@ namespace ProjectIndividual.UI.ViewModels
 
         #region IPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
-        private void RaisePropertyChanged(string propertyName)
+        public void RaisePropertyChanged(string propertyName)
         {
             // take a copy to prevent thread issues
             PropertyChangedEventHandler handler = PropertyChanged;

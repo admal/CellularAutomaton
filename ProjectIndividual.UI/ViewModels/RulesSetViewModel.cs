@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
+using Microsoft.Win32;
+using ProjectIndividual.Domain.FileManagment;
 using System.Linq;
 using ProjectIndividual.Domain.RulesComponent.Entities;
 using ProjectIndividual.UI.Commands;
@@ -15,6 +18,10 @@ namespace ProjectIndividual.UI.ViewModels
         public RulesSet rulesSet = new RulesSet();
         private ObservableCollection<RuleViewModel> rules;
         private BasicCommand addRuleCommand;
+        private BasicCommand saveRuleCommand;
+        private BasicCommand clearRuleCommand;
+        private BasicCommand loadRuleCommand;
+        private BasicCommand applyRuleCommand;
         #endregion
 
         #region Properties
@@ -26,6 +33,26 @@ namespace ProjectIndividual.UI.ViewModels
             get { return addRuleCommand; }
         }
 
+        public BasicCommand SaveRuleCommand
+        {
+            get { return saveRuleCommand; }
+        }
+
+        public BasicCommand ClearRuleCommand
+        {
+            get { return clearRuleCommand; }
+        }
+
+        public BasicCommand LoadRuleCommand
+        {
+            get { return loadRuleCommand; }
+        }
+
+        public BasicCommand ApplyRuleCommand
+        {
+            get { return applyRuleCommand; }
+        }
+
         #endregion
 
         #region Constructors
@@ -33,15 +60,61 @@ namespace ProjectIndividual.UI.ViewModels
         public RulesSetViewModel()
         {
             addRuleCommand = new BasicCommand(AddNewRule, () => true );
-            rules = new ObservableCollection<RuleViewModel>(rulesSet.Rules.Select(r => new RuleViewModel(r)));
+            saveRuleCommand = new BasicCommand(SaveNewRuleSet, () => true);
+            clearRuleCommand = new BasicCommand(ClearRuleSet, ()=>true);
+            loadRuleCommand = new BasicCommand(LoadRuleSet, ()=>true);
+            applyRuleCommand = new BasicCommand(ApplyRulesToGrid, ()=>true);
         }
 
+        private void ApplyRulesToGrid()
+        {
+            ViewModel.grid.Rules = rules;
+            ViewModel.RaisePropertyChanged("isStartable");
+            ViewModel.RaisePropertyChanged("RulesName");
+            ViewModel.RaisePropertyChanged("Rules");
+        }
+
+        #endregion
+
+        #region Methods
+        private void LoadRuleSet()
+        {
+            var dialog = new OpenFileDialog();
+            dialog.Filter = "Rules files (.rules)|*.rules";
+            dialog.FilterIndex = 1;
+
+            // Call the ShowDialog method to show the dialog box.
+            bool? userClickedOK = dialog.ShowDialog();
+            if (userClickedOK == true)
+            {
+                rules = FileLoader.ReadFromBinaryFile<RulesSet>(dialog.FileName);
+                RaisePropertyChanged("RuleName");
+                RaisePropertyChanged("Rules");
+                MessageBox.Show("Rules loaded properly!");
+            }
+        }
         private void AddNewRule()
         {
             rulesSet.Rules.Add(new Rule());
             RaisePropertyChanged("Rules");
         }
 
+        private void SaveNewRuleSet()
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Grid file (*.rules)|*.rules";
+            if (dialog.ShowDialog() == true)
+            {
+                FileCreator.WriteToBinaryFile(dialog.FileName, rules);
+            }
+        }
+
+        private void ClearRuleSet()
+        {
+            this.rules = new RulesSet();
+            RaisePropertyChanged("RuleName");
+            RaisePropertyChanged("Rules");
+        }
         #endregion
 
         #region IPropertyChanged

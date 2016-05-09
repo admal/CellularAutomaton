@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -17,13 +19,17 @@ using ProjectIndividual.UI.Commands;
 using ProjectIndividual.UI.CustomThreads;
 using ProjectIndividual.UI.Helpers;
 using ProjectIndividual.UI.Views;
+using Brushes = System.Windows.Media.Brushes;
+using Grid = ProjectIndividual.Domain.GridComponent.Entities.Grid;
 
 namespace ProjectIndividual.UI.ViewModels
 {
     public class GridViewModel : INotifyPropertyChanged
     {
         #region Fields
+
         private Grid grid;
+        
         private uint generation = 0;
         public  bool isStarted { get; set; } = false;
         public bool isPaused { get; set; } = false;
@@ -38,6 +44,8 @@ namespace ProjectIndividual.UI.ViewModels
         private BasicCommand saveCurrentGridCommand;
 
         private ComputingThread computingThread;
+        private uint size = 1;
+        private uint scale = 1;
 
         #endregion
 
@@ -60,35 +68,42 @@ namespace ProjectIndividual.UI.ViewModels
         }
 
         public uint JumpSteps { get; set; } =0;
-    
+
+        public uint Scale
+        {
+            get
+            {
+                return scale;
+            }
+            set
+            {
+                scale = value;
+                RaisePropertyChanged("Rectangles");
+            }
+        }
+
         /// <summary>
         /// True when rules are loaded
         /// </summary>
         public bool isStartable{get { return grid.Rules != null; }}
 
-        public ImageBrush GridBrush
+
+        public ObservableCollection<CellViewModel> Rectangles
         {
             get
             {
-                if (gridImage != null)
-                {
-                    var brush = new ImageBrush(gridImage.GetImageSource());
-                    return brush;
-                }
-                else
-                {
-                    return new ImageBrush();
-                }
-
+                var rects = new ObservableCollection<CellViewModel>(
+                    grid.ImportantCells.Select(c => new CellViewModel(c,size*scale)));
+                return rects;
             }
-        }
+        }  
         public int ScreenWidth { get; } = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
         public int ScreenHeight { get; } = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
         public int LivingCellsCount
         {
             get
             {
-                return grid.VisitedCells.Values.Select(c => c.State == CellState.Alive).Count();
+                return grid.VisitedCells.Values.Count;
             }
         }
 
@@ -131,7 +146,7 @@ namespace ProjectIndividual.UI.ViewModels
             RaisePropertyChanged("Generation");
             RaisePropertyChanged("Rules");
             RaisePropertyChanged("LivingCellsCount");
-            RaisePropertyChanged("GridBrush");
+            RaisePropertyChanged("Rectangles");
             RaisePropertyChanged("isStartable");
             RaisePropertyChanged("isPaused");
             RaisePropertyChanged("isStarted");
@@ -172,7 +187,7 @@ namespace ProjectIndividual.UI.ViewModels
             {
                 grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
                 gridImage = new EditableImage(ScreenWidth, ScreenHeight, grid);
-                RaisePropertyChanged("GridBrush");
+                RaisePropertyChanged("Rectangles");
                 RaisePropertyChanged("LivingCellsCount");
                 RaisePropertyChanged("RulesName");
                 RaisePropertyChanged("isStartable");
@@ -216,7 +231,7 @@ namespace ProjectIndividual.UI.ViewModels
             grid.UpdateGrid();
             gridImage.UpdateImage();
             RaisePropertyChanged("Generation");
-            RaisePropertyChanged("GridBrush");
+            RaisePropertyChanged("Rectangles");
             RaisePropertyChanged("LivingCellsCount");
         }
         #endregion

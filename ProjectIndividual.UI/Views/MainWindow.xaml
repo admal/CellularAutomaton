@@ -32,9 +32,7 @@
                         IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}" Command="{Binding StartGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"
                         ></Button>
                 <Button Content="Next step" IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}" Command="{Binding NextStepCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></Button>
-                <!--<Button Content="Zoom in" IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>
-                <Button Content="Zoom out"  IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}"></Button>-->
-                <Slider x:Name="uiScaleSlider" ToolTip="Zoom" Value="1" Minimum="1" Maximum="10" VerticalAlignment="Center"
+                <Slider x:Name="uiScaleSlider" ToolTip="Zoom" Value="{Binding Scale,Source={StaticResource mainGrid}}" Minimum="1" Maximum="100" VerticalAlignment="Center"
                          />
                 <Button Content="See all" ToolTip="See all living cells"  
                         IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}" Click="SeeAllClick" ></Button>
@@ -53,18 +51,40 @@
                 <Label HorizontalContentAlignment="Right" Content="Rule:"></Label>
                 <Label x:Name="lblRuleName" Content="{Binding RulesName, Source={StaticResource mainGrid}}"></Label>
             </UniformGrid>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <Grid>
-                    <Grid.LayoutTransform >
-                        <ScaleTransform CenterX="0" CenterY="0"  ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
-                        ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"
-                    />
-                    </Grid.LayoutTransform>
-                    <Canvas x:Name="canGrid" 
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                <Grid >
+                    <!--<Grid.LayoutTransform >
+                        <ScaleTransform CenterX="0" 
+                                        CenterY="0" 
+                                        ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
+                                        ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"
+                            />
+                    </Grid.LayoutTransform>-->
+                    <ItemsControl ItemsSource="{Binding Rectangles,Source={StaticResource mainGrid}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Width="{Binding ScreenWidth, Source={StaticResource mainGrid}}" 
+                                        Height="{Binding ScreenHeight, Source={StaticResource mainGrid}}" ></Canvas>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Rectangle Fill="{Binding Path=Fill}" Width="{Binding Size}" Height="{Binding Size}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Canvas.Top" Value="{Binding Path=X}" />
+                                <Setter Property="Canvas.Left" Value="{Binding Path=Y}" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                    <!--<Canvas x:Name="canGrid" 
                             Width="{Binding ScreenWidth, Source={StaticResource mainGrid}}" 
                             Height="{Binding ScreenHeight, Source={StaticResource mainGrid}}" 
-                            Background="{Binding GridBrush, Source={StaticResource mainGrid}}">
-                    </Canvas>
+                            Background="{Binding GridBrush, Source={StaticResource mainGrid}}"
+                            Children="{Binding Rectangles,Source={StaticResource mainGrid}}">
+                    </Canvas>-->
                 </Grid>
             </ScrollViewer>
         </DockPanel>

@@ -19,6 +19,10 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
             get { return visitedCells; }
         }
 
+        public IEnumerable<Cell> ImportantCells
+        {
+            get { return visitedCells.Values.Where(c => c.State != CellState.Unvisited); }
+        } 
         public Cell GetCell(Position position)
         {
             if (visitedCells.ContainsKey(position))

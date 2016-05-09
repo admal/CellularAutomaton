@@ -66,8 +66,10 @@
     <Compile Include="Helpers\EditableImage.cs" />
     <Compile Include="Helpers\RgbPixel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\CellViewModel.cs" />
     <Compile Include="ViewModels\GridViewModel.cs" />
     <Compile Include="ViewModels\RulesSetViewModel.cs" />
+    <Compile Include="ViewModels\RuleViewModel.cs" />
     <Compile Include="Views\RuleWindow.xaml.cs">
       <DependentUpon>RuleWindow.xaml</DependentUpon>
     </Compile>

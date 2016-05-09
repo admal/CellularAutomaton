@@ -26,11 +26,11 @@ namespace ProjectIndividual.UI.Views
             InitializeComponent();
         }
 
-        public RuleWindow(RulesSet rules)
+        public RuleWindow(RulesSet rulesSet)
         {
             InitializeComponent();
             var ruleViewModel = ((RulesSetViewModel)Resources["rulesSet"]);
-            ruleViewModel.rules = rules;
+            ruleViewModel.rulesSet = rulesSet;
             ruleViewModel.RaisePropertyChanged("RuleName");
             ruleViewModel.RaisePropertyChanged("Rules");
         }

@@ -70,6 +70,7 @@
     <Compile Include="ViewModels\GridViewModel.cs" />
     <Compile Include="ViewModels\RulesSetViewModel.cs" />
     <Compile Include="ViewModels\RuleViewModel.cs" />
+    <Compile Include="ViewModels\StatementViewModel.cs" />
     <Compile Include="Views\RuleWindow.xaml.cs">
       <DependentUpon>RuleWindow.xaml</DependentUpon>
     </Compile>

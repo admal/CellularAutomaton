@@ -119,7 +119,7 @@ namespace ProjectIndividual.UI.ViewModels
         public GridViewModel()
         {
             grid = new Grid();
-            openRulesCommand = new BasicCommand(this.OpenRulesWindow, () => !isStarted);
+            openRulesCommand = new BasicCommand(this.OpenRulesWindow, () => true);
             loadGridCommand = new BasicCommand(this.OpenLoadGridWindow, () => !isStarted);
             startGridCommand = new BasicCommand(StartPauseComputingGrid, ()=>true);
             jumpStepsCommand = new BasicCommand(JumpNSteps, ()=>true );
@@ -195,6 +195,7 @@ namespace ProjectIndividual.UI.ViewModels
             if (userClickedOK == true)
             {
                 grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
+                grid.ClearNewGenration();//clear if sth left during saving
                 gridImage = new EditableImage(ScreenWidth, ScreenHeight, grid);
                 RaisePropertyChanged("Rectangles");
                 RaisePropertyChanged("LivingCellsCount");

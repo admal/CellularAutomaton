@@ -18,7 +18,7 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         {
             get { return visitedCells; }
         }
-
+        
         public IEnumerable<Cell> ImportantCells
         {
             get { return visitedCells.Values.Where(c => c.State != CellState.Unvisited); }
@@ -32,6 +32,10 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
             throw new Exception("On given position there is not visited cell and given position is not neighbour of visited cell!");
         }
 
+        public void ClearNewGenration()
+        {
+            newCellsGeneration.Clear();
+        }
         public Cell GetCell(long x, long y)
         {
             return GetCell(new Position(x,y));
@@ -49,10 +53,6 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         public Grid(IList<Cell> initCells, RulesSet set) : this(initCells)
         {
             rules = set;
-            //foreach (var initCell in initCells)
-            //{
-            //    VisitedCells.Add(initCell.Position,initCell);
-            //}
         }
 
         public Grid(IList<Cell> initCells) : this()

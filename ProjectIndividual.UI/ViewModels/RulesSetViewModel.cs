@@ -27,7 +27,22 @@ namespace ProjectIndividual.UI.ViewModels
 
         #region Properties
         public string RuleName { get { return rulesSet.Name; } set { rulesSet.Name = value; } }
-        public ObservableCollection<RuleViewModel> Rules { get { return rules; } }
+
+        public ObservableCollection<RuleViewModel> Rules
+        {
+            get
+            {
+                if (rules == null)
+                {
+                    rules = new ObservableCollection<RuleViewModel>();
+                }
+                if (rules.Count==0)
+                {
+                    rules = new ObservableCollection<RuleViewModel>(rulesSet.Rules.Select(r => new RuleViewModel(r)));
+                }
+                return rules;
+            }
+        }
 
         public BasicCommand AddRuleCommand
         {
@@ -96,7 +111,9 @@ namespace ProjectIndividual.UI.ViewModels
         }
         private void AddNewRule()
         {
-            rulesSet.Rules.Add(new Rule());
+            var newRule = new Rule();
+            rulesSet.Rules.Add(newRule);
+            rules.Add(new RuleViewModel(newRule));
             RaisePropertyChanged("Rules");
         }
 

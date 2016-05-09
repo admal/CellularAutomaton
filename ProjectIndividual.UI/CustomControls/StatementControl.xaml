@@ -8,7 +8,7 @@
              xmlns:rulesEntities="clr-namespace:ProjectIndividual.Domain.RulesComponent.Entities;assembly=ProjectIndividual.Domain"
              xmlns:cellEntities="clr-namespace:ProjectIndividual.Domain.GridComponent.Entities;assembly=ProjectIndividual.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="30" Width="483.327">
+             d:DesignHeight="44.863" Width="481.125">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="LogicalConnectorEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}" >
             <ObjectDataProvider.MethodParameters>
@@ -26,20 +26,23 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    <Grid Background="AliceBlue">
-        <ComboBox Width="61" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource LogicalConnectorEnum}}" 
-                  SelectedItem="{Binding Connector}" ></ComboBox>
-        <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" 
-                Text="{Binding LogicalSentence.NumOfCells}" ></TextBox>
-        <Label HorizontalAlignment="Left" Margin="106,0,0,0" VerticalContentAlignment="Center" Content="cells"></Label>
-        <ComboBox HorizontalAlignment="Left" Margin="144,0,0,0" 
-                  ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"
-                  SelectedItem="{Binding LogicalSentence.SeekState}" ></ComboBox>
-        <Label HorizontalAlignment="Left" Margin="243,0,0,0" VerticalContentAlignment="Center" Content="in"></Label>
-        <TextBox Text="{Binding LogicalSentence.Num}" Width="50" HorizontalAlignment="Left" Margin="268,0,0,0"></TextBox>
-        <ComboBox HorizontalAlignment="Left" Margin="318,0,0,0" 
-                  ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"
-                  SelectedItem="{Binding LogicalSentence.ConsideredArea}"></ComboBox>
-    </Grid>
+    <DockPanel LastChildFill="True">
+        <Grid Background="AliceBlue" DockPanel.Dock="Top">
+            <ComboBox Width="61" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource LogicalConnectorEnum}}" 
+                      SelectedItem="{Binding Connector}" ></ComboBox>
+            <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" 
+                    Text="{Binding LogicalSentence.NumOfCells}" ></TextBox>
+            <Label HorizontalAlignment="Left" Margin="106,0,0,0" VerticalContentAlignment="Center" Content="cells"></Label>
+            <ComboBox HorizontalAlignment="Left" Margin="144,0,0,0" 
+                      ItemsSource="{Binding Source={StaticResource CellStateEnum}}" Width="94"
+                      SelectedItem="{Binding LogicalSentence.SeekState}" ></ComboBox>
+            <Label HorizontalAlignment="Left" Margin="243,0,0,0" VerticalContentAlignment="Center" Content="in"></Label>
+            <TextBox Text="{Binding LogicalSentence.Num}" Width="50" HorizontalAlignment="Left" Margin="268,0,0,0"></TextBox>
+            <ComboBox HorizontalAlignment="Left" Margin="318,0,0,0" 
+                      ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"
+                      SelectedItem="{Binding LogicalSentence.ConsideredArea}"></ComboBox>
+        </Grid>
+        <Button Content="Remove" Command="{Binding RemoveStatementCommand}"></Button>
+    </DockPanel>
 </UserControl>
 

@@ -7,7 +7,7 @@
         xmlns:customControls="clr-namespace:ProjectIndividual.UI.CustomControls"
         xmlns:viewModels="clr-namespace:ProjectIndividual.UI.ViewModels"
         mc:Ignorable="d"
-        Title="Rule" Height="300" Width="1108.3">
+        Title="Rule" Height="300" Width="1108" WindowState="Maximized" >
     <Window.Resources>
         <viewModels:RulesSetViewModel x:Key="rulesSet"></viewModels:RulesSetViewModel>
     </Window.Resources>

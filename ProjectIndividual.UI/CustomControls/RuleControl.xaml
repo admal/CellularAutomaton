@@ -8,7 +8,7 @@
              xmlns:gridEntities="clr-namespace:ProjectIndividual.Domain.GridComponent.Entities;assembly=ProjectIndividual.Domain"
              xmlns:rulesEntities="clr-namespace:ProjectIndividual.Domain.RulesComponent.Entities;assembly=ProjectIndividual.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="1089">
+             d:DesignHeight="30" d:DesignWidth="661.5">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="CellStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -43,8 +43,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Button Content="Add statement"  Command="{Binding AddStatementCommand}" Width="96" ></Button>
             <Label Content="then current cell becomes"></Label>
             <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" SelectedItem="{Binding RetState}" Width="53"></ComboBox>
+            
         </DockPanel>
     </Grid>
 </UserControl>

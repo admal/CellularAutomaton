@@ -39,7 +39,7 @@ namespace ProjectIndividual.UI.Views
             InitializeComponent();
             var ruleViewModel = ((RulesSetViewModel)Resources["rulesSet"]);
             ruleViewModel.ViewModel = viewModel;
-            ruleViewModel.rules = viewModel.grid.Rules;
+            ruleViewModel.rulesSet = viewModel.grid.Rules;
             ruleViewModel.RaisePropertyChanged("RuleName");
             ruleViewModel.RaisePropertyChanged("Rules");
         }

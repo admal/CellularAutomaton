@@ -22,6 +22,7 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
         public CellState State
         {
             get { return state; }
+            set { state = value; }
         }
 
         public CellState Update(Grid grid)

@@ -145,5 +145,31 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
                 }
             }
         }
+
+        public CellState SwitchCellState(Position position)
+        {
+            var currState = GetCellState(position);
+            switch (currState)
+            {
+                case CellState.Alive:
+                    VisitedCells[position].State = CellState.Dead;
+                    return  CellState.Dead;
+                case CellState.Dead:
+                    VisitedCells[position].State = CellState.Alive;
+                    return CellState.Alive;
+                case CellState.Unvisited:
+                    VisitedCells.Add(position,new Cell(position,CellState.Alive) );
+                    return CellState.Alive;
+            }
+            return CellState.Unvisited;
+        }
+
+        public void RemoveCell(Position position)
+        {
+            if (VisitedCells.ContainsKey(position))
+            {
+                VisitedCells.Remove(position);
+            }
+        }
     }
 }

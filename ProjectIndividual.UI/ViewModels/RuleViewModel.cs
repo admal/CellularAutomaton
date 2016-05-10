@@ -14,21 +14,40 @@ namespace ProjectIndividual.UI.ViewModels
 {
     public class RuleViewModel : INotifyPropertyChanged
     {
+        private RulesSetViewModel ruleSetViewModel;
         private Rule rule;
         private BasicCommand addStatementCommand;
-        
+        private BasicCommand removeRuleCommand;
         private ObservableCollection<StatementViewModel> statements; 
         public BasicCommand AddStatementCommand
         {
             get { return addStatementCommand; }
         }
 
-        public RuleViewModel(Rule rule)
+        public BasicCommand RemoveRuleCommand
+        {
+            get { return removeRuleCommand; }
+        }
+
+        public Rule Rule
+        {
+            get { return rule; }
+        }
+
+        public RuleViewModel(Rule rule, RulesSetViewModel viewModel)
         {
             this.rule = rule;
+            this.ruleSetViewModel = viewModel;
             statements = new ObservableCollection<StatementViewModel>(
                 rule.Statements.Select(s=>new StatementViewModel(s,this)));
+
             addStatementCommand = new BasicCommand(AddStatement, ()=>true );
+            removeRuleCommand = new BasicCommand(RemoveItself, ()=>true );
+        }
+
+        private void RemoveItself()
+        {
+            ruleSetViewModel.RemoveRule(this);
         }
 
         private void AddStatement()

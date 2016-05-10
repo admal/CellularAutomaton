@@ -5,8 +5,8 @@ namespace ProjectIndividual.UI.ViewModels
 {
     public class CellViewModel
     {
-        private int OFFSET_X = (int)System.Windows.SystemParameters.PrimaryScreenWidth / 2;
-        private int OFFSET_Y = (int)System.Windows.SystemParameters.PrimaryScreenHeight / 2;
+        private int OFFSET_X = 0;// (int)System.Windows.SystemParameters.PrimaryScreenWidth / 2;
+        private int OFFSET_Y = 0;//(int)System.Windows.SystemParameters.PrimaryScreenHeight / 2;
 
         private Cell cell;
         private uint size;

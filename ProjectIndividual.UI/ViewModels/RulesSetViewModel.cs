@@ -38,7 +38,7 @@ namespace ProjectIndividual.UI.ViewModels
                 }
                 if (rules.Count==0)
                 {
-                    rules = new ObservableCollection<RuleViewModel>(rulesSet.Rules.Select(r => new RuleViewModel(r)));
+                    rules = new ObservableCollection<RuleViewModel>(rulesSet.Rules.Select(r => new RuleViewModel(r,this)));
                 }
                 return rules;
             }
@@ -109,11 +109,17 @@ namespace ProjectIndividual.UI.ViewModels
                 MessageBox.Show("Rules loaded properly!");
             }
         }
+
+        public void RemoveRule(RuleViewModel ruleViewModel)
+        {
+            rules.Remove(ruleViewModel);
+            rulesSet.Rules.Remove(ruleViewModel.Rule);
+        }
         private void AddNewRule()
         {
-            var newRule = new Rule();
+            var newRule = new Rule(rules.Count+1);
             rulesSet.Rules.Add(newRule);
-            rules.Add(new RuleViewModel(newRule));
+            rules.Add(new RuleViewModel(newRule, this));
             RaisePropertyChanged("Rules");
         }
 
@@ -130,6 +136,7 @@ namespace ProjectIndividual.UI.ViewModels
         private void ClearRuleSet()
         {
             this.rulesSet = new RulesSet();
+            rules.Clear();
             RaisePropertyChanged("RuleName");
             RaisePropertyChanged("Rules");
         }

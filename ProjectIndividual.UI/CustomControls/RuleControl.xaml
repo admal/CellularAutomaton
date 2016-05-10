@@ -23,7 +23,7 @@
     </UserControl.Resources>
     <Grid>
         <DockPanel LastChildFill="True">
-            <Button Background="Brown" Content="X" Width="21"></Button>
+            <Button Background="Brown" Content="X" Width="21" Command="{Binding RemoveRuleCommand}"></Button>
             <TextBox Width="36" x:Name="tbPriority" DockPanel.Dock="Left" Text="{Binding Priority}"></TextBox>
             <Separator DockPanel.Dock="Left" Height="30px" />
             <Label Background="AliceBlue" Content="If current cell state is" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>

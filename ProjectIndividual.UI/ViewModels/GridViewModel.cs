@@ -31,7 +31,6 @@ namespace ProjectIndividual.UI.ViewModels
         private uint generation = 0;
         public  bool isStarted { get; set; } = false;
         public bool isPaused { get; set; } = false;
-        private EditableImage gridImage;
         private BasicCommand openRulesCommand;
         private BasicCommand loadGridCommand;
         private BasicCommand startGridCommand;
@@ -162,7 +161,6 @@ namespace ProjectIndividual.UI.ViewModels
         private void ResetGrid()
         {
             grid = new Grid();
-            gridImage = null;
             generation = 0;
             isStarted = false;
             isPaused = false;
@@ -196,7 +194,6 @@ namespace ProjectIndividual.UI.ViewModels
             {
                 grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
                 grid.ClearNewGenration();//clear if sth left during saving
-                gridImage = new EditableImage(ScreenWidth, ScreenHeight, grid);
                 RaisePropertyChanged("Rectangles");
                 RaisePropertyChanged("LivingCellsCount");
                 RaisePropertyChanged("RulesName");
@@ -238,19 +235,37 @@ namespace ProjectIndividual.UI.ViewModels
                 thread.Start();
             }
         }
+
+        public void AddNewCell(double x, double y)
+        {
+            int actualX = (int)Math.Floor(x/size/scale);
+            int actualY = (int)Math.Floor(y / size / scale);
+            CellState newCellState = grid.SwitchCellState(new Position(actualY, actualX));
+            RaisePropertyChanged("Rectangles");
+        }
+
+        public void RemoveCell(double x, double y)
+        {
+            int actualX = (int)Math.Floor(x / size / scale);
+            int actualY = (int)Math.Floor(y / size / scale);
+            grid.RemoveCell(new Position(actualY, actualX));
+            RaisePropertyChanged("Rectangles");
+        }
         public void Update()
         {
             generation++;
             grid.UpdateGrid();
-            gridImage.UpdateImage();
             RaisePropertyChanged("Generation");
             RaisePropertyChanged("Rectangles");
             RaisePropertyChanged("LivingCellsCount");
         }
+
         #endregion
 
         #region IPropertyChanged
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void RaisePropertyChanged(string propertyName)
         {
             // take a copy to prevent thread issues
@@ -260,6 +275,7 @@ namespace ProjectIndividual.UI.ViewModels
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
         #endregion
     }
 }

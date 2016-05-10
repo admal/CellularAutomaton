@@ -13,8 +13,9 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         private CellState inputState;
         private int priority;
 
-        public Rule()
+        public Rule(int priority)
         {
+            this.priority = priority;
             statements = new List<Statement>();
         }
         public Rule(IList<Statement> statements, CellState retState, int priority, CellState inputState)

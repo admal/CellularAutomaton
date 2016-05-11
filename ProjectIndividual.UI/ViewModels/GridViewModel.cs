@@ -240,7 +240,7 @@ namespace ProjectIndividual.UI.ViewModels
         {
             int actualX = (int)Math.Floor(x/size/scale);
             int actualY = (int)Math.Floor(y / size / scale);
-            CellState newCellState = grid.SwitchCellState(new Position(actualY, actualX));
+            CellState newCellState = grid.SwitchCellState(new Position(actualX, actualY));
             RaisePropertyChanged("Rectangles");
         }
 
@@ -248,7 +248,7 @@ namespace ProjectIndividual.UI.ViewModels
         {
             int actualX = (int)Math.Floor(x / size / scale);
             int actualY = (int)Math.Floor(y / size / scale);
-            grid.RemoveCell(new Position(actualY, actualX));
+            grid.RemoveCell(new Position(actualX, actualY));
             RaisePropertyChanged("Rectangles");
         }
         public void Update()

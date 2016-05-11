@@ -129,7 +129,7 @@ namespace ProjectIndividual.UI.ViewModels
             dialog.Filter = "Grid file (*.rules)|*.rules";
             if (dialog.ShowDialog() == true)
             {
-                FileCreator.WriteToBinaryFile(dialog.FileName, rules);
+                FileCreator.WriteToBinaryFile(dialog.FileName, rulesSet);
             }
         }
 

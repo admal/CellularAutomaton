@@ -158,7 +158,14 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
                     VisitedCells[position].State = CellState.Alive;
                     return CellState.Alive;
                 case CellState.Unvisited:
-                    VisitedCells.Add(position,new Cell(position,CellState.Alive) );
+                    if (VisitedCells.ContainsKey(position))
+                    {
+                        VisitedCells[position].State = CellState.Alive;
+                    }
+                    else
+                    {
+                        VisitedCells.Add(position, new Cell(position, CellState.Alive));
+                    }
                     return CellState.Alive;
             }
             return CellState.Unvisited;

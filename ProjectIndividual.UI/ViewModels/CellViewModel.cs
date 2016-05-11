@@ -23,8 +23,8 @@ namespace ProjectIndividual.UI.ViewModels
                 return cell.State == CellState.Dead ? Brushes.Black : Brushes.Red;
             }
         }
-        public long X { get { return cell.X * size + OFFSET_X ; } }
-        public long Y { get { return cell.Y*size + OFFSET_Y; } }
+        public long X { get { return cell.Y * size + OFFSET_X ; } }
+        public long Y { get { return cell.X*size + OFFSET_Y; } }
 
         public uint Size
         {

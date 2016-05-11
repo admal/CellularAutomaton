@@ -27,7 +27,7 @@
                     <TextBox x:Name="tbRuleName" Margin="82,0,-146,0" HorizontalAlignment="Left" Width="231"
                              SourceUpdated="OnContentChanged" Text="{Binding RuleName, Mode=TwoWay, Source={StaticResource rulesSet}}" />
                 </Grid>
-                <ListView ItemsSource="{Binding Rules , Source={StaticResource rulesSet}}">
+                <ListView  ItemsSource="{Binding Rules , Source={StaticResource rulesSet}}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <customControls:RuleControl ></customControls:RuleControl>

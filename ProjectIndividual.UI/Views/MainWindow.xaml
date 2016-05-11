@@ -24,7 +24,7 @@
                     <MenuItem Header="_Rules" Command="{Binding OpenRulesCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
                     <MenuItem Header="_Load grid" Command="{Binding OpenLoadGridWindowCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></MenuItem>
                     <MenuItem Header="_Reset grid" Command="{Binding ResetGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
-                    <MenuItem Header="_Save current grid" Command="{Binding SaveCurrentGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"  IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}"></MenuItem>
+                    <MenuItem Header="_Save current grid" Command="{Binding SaveCurrentGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>
                     <!--<MenuItem Header="_Exit" Command="{Binding CloseAppCommand, Mode=OneWay, Source={StaticResource mainGrid}}" ></MenuItem>-->
                     <!--<MenuItem Header="_Random grid"></MenuItem>-->
                 </MenuItem>

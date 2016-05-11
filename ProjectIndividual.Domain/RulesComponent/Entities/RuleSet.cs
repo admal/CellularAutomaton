@@ -29,7 +29,6 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
 
         public CellState Apply(Grid grid, Cell currCell)
         {
-#warning Assumption that rules are already sorted by priority!
             CellState retState = currCell.State;
             foreach (var rule in rules)
             {
@@ -37,7 +36,12 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
                 if (rule.InputState != currCell.State && rule.InputState != CellState.Any)
                     continue;
 
-                retState = rule.Apply(grid, currCell);
+                var appliedState = rule.Apply(grid, currCell);
+
+                //we assign new state only when new state actually does change the state of the cell, 
+                //if 2 rules chenges state the one with higher priority is chosen
+                retState = appliedState != currCell.State ? appliedState : retState;
+
             }
             return retState;
         }

@@ -17,9 +17,7 @@ using ProjectIndividual.Domain.GridComponent.Entities;
 using ProjectIndividual.Domain.RulesComponent.Entities;
 using ProjectIndividual.UI.Commands;
 using ProjectIndividual.UI.CustomThreads;
-using ProjectIndividual.UI.Helpers;
 using ProjectIndividual.UI.Views;
-using Brushes = System.Windows.Media.Brushes;
 using Grid = ProjectIndividual.Domain.GridComponent.Entities.Grid;
 
 namespace ProjectIndividual.UI.ViewModels

@@ -55,7 +55,13 @@
                 <Label x:Name="lblRuleName" Content="{Binding RulesName, Source={StaticResource mainGrid}}"></Label>
             </UniformGrid>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-                <Grid MouseRightButtonDown="OnCanvasRightClick" MouseLeftButtonDown="OnCanvasLeftClick" x:Name="cellsGrid" Background="White">
+                <Grid MouseRightButtonUp="OnCanvasRightClick" 
+                      MouseLeftButtonUp="OnCanvasLeftUp" 
+                      MouseLeftButtonDown="OnCanvasLeftDown"
+                      MouseMove="MouseMoveOnGrid"
+                      x:Name="cellsGrid" 
+                      Background="White"
+                      >
                     <!--<Grid.LayoutTransform >
                         <ScaleTransform CenterX="0" 
                                         CenterY="0" 

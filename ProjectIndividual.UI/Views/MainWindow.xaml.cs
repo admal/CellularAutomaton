@@ -10,9 +10,13 @@ namespace ProjectIndividual.UI.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GridViewModel viewModel;
+        private Point onGridStartMovePosition;
+        private bool wasDragged = false;
         public MainWindow()
         {
             InitializeComponent();
+            viewModel = Resources["mainGrid"] as GridViewModel;
         }
 #warning TMP!!!!
         private void SeeAllClick(object sender, RoutedEventArgs e)
@@ -20,16 +24,32 @@ namespace ProjectIndividual.UI.Views
             uiScaleSlider.Value = 1;
         }
 
-        private void OnCanvasLeftClick(object sender, MouseButtonEventArgs e)
+        private void OnCanvasLeftUp(object sender, MouseButtonEventArgs e)
         {
-            var viewModel = Resources["mainGrid"] as GridViewModel;
-            viewModel.AddNewCell(e.GetPosition(cellsGrid).X, e.GetPosition(cellsGrid).Y);
+            if (!wasDragged)
+            {
+                viewModel.AddNewCell(e.GetPosition(cellsGrid).X, e.GetPosition(cellsGrid).Y);
+            }
+            wasDragged = false;
         }
 
         private void OnCanvasRightClick(object sender, MouseButtonEventArgs e)
         {
-            var viewModel = Resources["mainGrid"] as GridViewModel;
             viewModel.RemoveCell(e.GetPosition(cellsGrid).X, e.GetPosition(cellsGrid).Y);
+        }
+
+        private void MouseMoveOnGrid(object sender, MouseEventArgs e)
+        {
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                wasDragged = true;
+                viewModel.MoveGrid(onGridStartMovePosition, e.GetPosition(cellsGrid));
+            }
+        }
+
+        private void OnCanvasLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            onGridStartMovePosition = e.GetPosition(cellsGrid);
         }
     }
 }

@@ -19,6 +19,7 @@ using ProjectIndividual.UI.Commands;
 using ProjectIndividual.UI.CustomThreads;
 using ProjectIndividual.UI.Views;
 using Grid = ProjectIndividual.Domain.GridComponent.Entities.Grid;
+using Point = System.Windows.Point;
 
 namespace ProjectIndividual.UI.ViewModels
 {
@@ -42,7 +43,7 @@ namespace ProjectIndividual.UI.ViewModels
         private ComputingThread computingThread;
         private uint size = 1;
         private uint scale = 1;
-
+        private int offsetX = 0, offsetY = 0;
         #endregion
 
         #region Properties
@@ -94,7 +95,7 @@ namespace ProjectIndividual.UI.ViewModels
             get
             {
                 var rects = new ObservableCollection<CellViewModel>(
-                    grid.ImportantCells.Select(c => new CellViewModel(c,size*scale)));
+                    grid.ImportantCells.Select(c => new CellViewModel(c,size*scale, offsetX, offsetY)));
                 return rects;
             }
         }
@@ -257,7 +258,14 @@ namespace ProjectIndividual.UI.ViewModels
             RaisePropertyChanged("Rectangles");
             RaisePropertyChanged("LivingCellsCount");
         }
-
+        public void MoveGrid(Point startPosition, Point endPosition)
+        {
+            int offsetX = (int) ((endPosition.Y - startPosition.Y)/size/scale);
+            int offsetY = (int) ((endPosition.X - startPosition.X)/size/scale);
+            this.offsetX += offsetX;
+            this.offsetY += offsetY;
+            RaisePropertyChanged("Rectangles");
+        }
         #endregion
 
         #region IPropertyChanged
@@ -275,5 +283,7 @@ namespace ProjectIndividual.UI.ViewModels
         }
 
         #endregion
+
+
     }
 }

@@ -38,9 +38,13 @@ namespace ProjectIndividual.UI.ViewModels
         {
             this.rule = rule;
             this.ruleSetViewModel = viewModel;
-            statements = new ObservableCollection<StatementViewModel>(
-                rule.Statements.Select(s=>new StatementViewModel(s,this)));
-
+            statements = new ObservableCollection<StatementViewModel>();
+            int i = 0;
+            foreach (var statement in rule.Statements)
+            {
+                statements.Add(new StatementViewModel(statement ,this,i++));
+            }
+            
             addStatementCommand = new BasicCommand(AddStatement, ()=>true );
             removeRuleCommand = new BasicCommand(RemoveItself, ()=>true );
         }
@@ -53,7 +57,8 @@ namespace ProjectIndividual.UI.ViewModels
         private void AddStatement()
         {
             var newStatement = new Statement(null, new Sentence(1,CellState.Any, Area.Neghbourhood, 0));
-            statements.Add(new StatementViewModel(newStatement,this));
+            int num = statements.Count;
+            statements.Add(new StatementViewModel(newStatement,this, num));
             rule.Statements.Add(newStatement);
         }
 
@@ -61,6 +66,10 @@ namespace ProjectIndividual.UI.ViewModels
         {
             statements.Remove(viewModel);
             rule.Statements.Remove(viewModel.Statement);
+            for (int i = 0; i < statements.Count; i++)
+            {
+                statements[i].Num = i;
+            }
         }
         public CellState InputState
         {
@@ -74,10 +83,10 @@ namespace ProjectIndividual.UI.ViewModels
             set { rule.Priority = (int) value; }
         }
 
-        public CellState RetState
+        public CellOutStateViewModel RetState
         {
-            get { return rule.RetState; }
-            set { rule.RetState = value; }
+            get { return (CellOutStateViewModel) rule.RetState; }
+            set { rule.RetState = (CellState) value; }
         }
 
         public ObservableCollection<StatementViewModel> Statements

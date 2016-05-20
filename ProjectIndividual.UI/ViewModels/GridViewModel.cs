@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
@@ -80,6 +81,10 @@ namespace ProjectIndividual.UI.ViewModels
             set
             {
                 scale = value;
+                foreach (var cellViewModel in rects)
+                {
+                    cellViewModel.Size = scale*size;
+                }
                 RaisePropertyChanged("Rectangles");
             }
         }
@@ -89,13 +94,13 @@ namespace ProjectIndividual.UI.ViewModels
         /// </summary>
         public bool isStartable{get { return grid.Rules != null; }}
 
-
+        private ObservableCollection<CellViewModel> rects = new ObservableCollection<CellViewModel>(); 
         public ObservableCollection<CellViewModel> Rectangles
         {
             get
             {
-                var rects = new ObservableCollection<CellViewModel>(
-                    grid.ImportantCells.Select(c => new CellViewModel(c,size*scale, offsetX, offsetY)));
+                rects = new ObservableCollection<CellViewModel>(
+                    grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
                 return rects;
             }
         }
@@ -136,12 +141,15 @@ namespace ProjectIndividual.UI.ViewModels
         public GridViewModel(IList<Cell> cells)
         {
             this.grid = new Grid(cells);
-
+            rects = new ObservableCollection<CellViewModel>(
+                grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
         }
 
         public GridViewModel(IList<Cell> cells, RulesSet rules)
         {
             this.grid = new Grid(cells, rules);
+            rects = new ObservableCollection<CellViewModel>(
+                grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
         }
 
         #endregion
@@ -163,7 +171,8 @@ namespace ProjectIndividual.UI.ViewModels
             generation = 0;
             isStarted = false;
             isPaused = false;
-            computingThread.Stop();
+            computingThread?.Stop();
+            rects.Clear();
             RaisePropertyChanged("Generation");
             RaisePropertyChanged("Rules");
             RaisePropertyChanged("LivingCellsCount");
@@ -192,6 +201,8 @@ namespace ProjectIndividual.UI.ViewModels
             if (userClickedOK == true)
             {
                 grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
+                rects = new ObservableCollection<CellViewModel>(
+                    grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
                 grid.ClearNewGenration();//clear if sth left during saving
                 RaisePropertyChanged("Rectangles");
                 RaisePropertyChanged("LivingCellsCount");
@@ -237,9 +248,16 @@ namespace ProjectIndividual.UI.ViewModels
 
         public void AddNewCell(double x, double y)
         {
-            int actualX = (int)Math.Floor(x/size/scale);
-            int actualY = (int)Math.Floor(y / size / scale);
-            CellState newCellState = grid.SwitchCellState(new Position(actualX, actualY));
+            int actualX = (int)Math.Floor(x /size/scale + offsetX);
+            int actualY = (int)Math.Floor(y / size / scale + offsetY);
+            Debug.WriteLine("New cell at: " + actualX + ", " +actualY);
+            var pos = new Position(actualX, actualY);
+            CellState newCellState = grid.SwitchCellState(pos);
+            var newCell = new CellViewModel(grid.GetCell(pos) , size*scale, offsetX,offsetY);
+            if (!rects.Contains(newCell))
+            {
+                rects.Add(newCell);
+            }
             RaisePropertyChanged("Rectangles");
         }
 
@@ -247,7 +265,16 @@ namespace ProjectIndividual.UI.ViewModels
         {
             int actualX = (int)Math.Floor(x / size / scale);
             int actualY = (int)Math.Floor(y / size / scale);
-            grid.RemoveCell(new Position(actualX, actualY));
+            var pos = new Position(actualX, actualY);
+            try
+            {
+                var cellToRemove = grid.GetCell(pos);
+                rects.Remove(rects.FirstOrDefault(c => c.Equals(cellToRemove)));
+            }
+            catch (Exception){}//just ignore
+
+            grid.RemoveCell(pos);
+            
             RaisePropertyChanged("Rectangles");
         }
         public void Update()
@@ -260,10 +287,12 @@ namespace ProjectIndividual.UI.ViewModels
         }
         public void MoveGrid(Point startPosition, Point endPosition)
         {
-            int offsetX = (int) ((endPosition.Y - startPosition.Y)/size/scale);
-            int offsetY = (int) ((endPosition.X - startPosition.X)/size/scale);
-            this.offsetX += offsetX;
-            this.offsetY += offsetY;
+            int offsetX = (int) ((endPosition.X - startPosition.X)/size/scale);
+            int offsetY = (int) ((endPosition.Y - startPosition.Y)/size/scale);
+            Debug.Write( endPosition.X +" - " + startPosition.X + " / " + size + " / " + scale +" = " );
+            this.offsetX = offsetX;
+            this.offsetY = offsetY;
+            Debug.WriteLine(this.offsetX + ", " + this.offsetY);
             RaisePropertyChanged("Rectangles");
         }
         #endregion

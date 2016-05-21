@@ -22,7 +22,7 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         /// </summary>
         private Area consideredArea;
         /// <summary>
-        /// Index (from 1 to 5) of row or column, if whole neghbourhood is considered than it is 0.
+        /// Index (from 1 to 5) of row or column, if whole neghbourhood is considered than it is 1.
         /// </summary>
         private int num;
 

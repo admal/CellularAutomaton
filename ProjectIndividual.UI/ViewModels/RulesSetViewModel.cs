@@ -75,11 +75,16 @@ namespace ProjectIndividual.UI.ViewModels
 
         public RulesSetViewModel()
         {
+            if (string.IsNullOrEmpty(rulesSet.Name))
+            {
+                RuleName = "rule name";
+            }
             addRuleCommand = new BasicCommand(AddNewRule, () => true );
             saveRuleCommand = new BasicCommand(SaveNewRuleSet, () => true);
             clearRuleCommand = new BasicCommand(ClearRuleSet, ()=>true);
             loadRuleCommand = new BasicCommand(LoadRuleSet, ()=>true);
             applyRuleCommand = new BasicCommand(ApplyRulesToGrid, ()=>true);
+            RaisePropertyChanged("RuleName");
         }
 
         private void ApplyRulesToGrid()

@@ -115,6 +115,7 @@ namespace ProjectIndividual.UI.ViewModels
         }
 
         public uint Generation{get { return generation; }}
+        
         public string RulesName { get { return grid.Rules == null ? "Not loaded" : grid.Rules.Name; } }
         #endregion
 

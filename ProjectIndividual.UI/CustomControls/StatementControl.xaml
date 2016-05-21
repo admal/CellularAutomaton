@@ -8,29 +8,36 @@
              xmlns:rulesEntities="clr-namespace:ProjectIndividual.Domain.RulesComponent.Entities;assembly=ProjectIndividual.Domain"
              xmlns:cellEntities="clr-namespace:ProjectIndividual.Domain.GridComponent.Entities;assembly=ProjectIndividual.Domain"
              xmlns:viewModels="clr-namespace:ProjectIndividual.UI.ViewModels"
+             xmlns:validation="clr-namespace:ProjectIndividual.UI.Validation"
              mc:Ignorable="d" 
              d:DesignHeight="44.863" Width="481.125">
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="LogicalConnectorEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}" >
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="rulesEntities:LogicalConnector"></x:Type>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="NeighbourHoodEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="rulesEntities:Area"></x:Type>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="CellStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="cellEntities:CellState"></x:Type>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="CellSeekStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="viewModels:CellSeekStateViewModel"></x:Type>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Themes/Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <ObjectDataProvider x:Key="LogicalConnectorEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}" >
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="rulesEntities:LogicalConnector"></x:Type>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="NeighbourHoodEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="rulesEntities:Area"></x:Type>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="CellStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="cellEntities:CellState"></x:Type>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="CellSeekStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="viewModels:CellSeekStateViewModel"></x:Type>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel LastChildFill="True">
         <Grid Background="AliceBlue" DockPanel.Dock="Top">
@@ -38,13 +45,33 @@
                       SelectedItem="{Binding Connector}" 
                         IsEnabled="{Binding ShowConnector}"></ComboBox>
             <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" 
-                    Text="{Binding LogicalSentence.NumOfCells}" ></TextBox>
+                     >
+                <TextBox.Text>
+                    <Binding Path="LogicalSentence.NumOfCells" >
+                        <Binding.ValidationRules>
+                            <validation:RangeValidator Min="0" Max="24"></validation:RangeValidator>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    
+                </TextBox.Text>
+            </TextBox>
             <Label HorizontalAlignment="Left" Margin="106,0,0,0" VerticalContentAlignment="Center" Content="cells"></Label>
             <ComboBox HorizontalAlignment="Left" Margin="144,0,0,0" 
                       ItemsSource="{Binding Source={StaticResource CellSeekStateEnum}}" Width="94"
                       SelectedItem="{Binding SeekState}" ></ComboBox>
             <Label HorizontalAlignment="Left" Margin="243,0,0,0" VerticalContentAlignment="Center" Content="in"></Label>
-            <TextBox Text="{Binding LogicalSentence.Num}" Width="50" HorizontalAlignment="Left" Margin="268,0,0,0"></TextBox>
+            <TextBox 
+                Width="50" 
+                HorizontalAlignment="Left" 
+                Margin="268,0,0,0">
+                <TextBox.Text>
+                    <Binding Path="LogicalSentence.Num">
+                        <Binding.ValidationRules>
+                            <validation:RangeValidator Min="1" Max="5"></validation:RangeValidator>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <ComboBox HorizontalAlignment="Left" Margin="318,0,0,0" 
                       ItemsSource="{Binding Source={StaticResource NeighbourHoodEnum}}" Width="163"
                       SelectedItem="{Binding LogicalSentence.ConsideredArea}"></ComboBox>

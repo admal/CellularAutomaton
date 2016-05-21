@@ -56,7 +56,10 @@ namespace ProjectIndividual.UI.ViewModels
 
         private void AddStatement()
         {
-            var newStatement = new Statement(null, new Sentence(1,CellState.Any, Area.Neghbourhood, 0));
+            Statement newStatement;
+            newStatement = statements.Count == 0 ? 
+                new Statement(null, new Sentence(1, CellState.Unvisited, Area.Neghbourhood, 1)) : 
+                new Statement(LogicalConnector.And, new Sentence(1, CellState.Unvisited, Area.Neghbourhood, 1));
             int num = statements.Count;
             statements.Add(new StatementViewModel(newStatement,this, num));
             rule.Statements.Add(newStatement);

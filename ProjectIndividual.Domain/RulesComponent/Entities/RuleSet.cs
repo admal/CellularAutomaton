@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ProjectIndividual.Domain.GridComponent;
 using ProjectIndividual.Domain.GridComponent.Entities;
 
 namespace ProjectIndividual.Domain.RulesComponent.Entities

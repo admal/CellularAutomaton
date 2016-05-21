@@ -63,9 +63,9 @@
       <DependentUpon>StatementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomThreads\ComputingThread.cs" />
-    <Compile Include="Helpers\EditableImage.cs" />
-    <Compile Include="Helpers\RgbPixel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Validation\RangeValidator.cs" />
+    <Compile Include="Validation\StringValidator.cs" />
     <Compile Include="ViewModels\CellOutStateViewModel.cs" />
     <Compile Include="ViewModels\CellSeekStateViewModel.cs" />
     <Compile Include="ViewModels\CellViewModel.cs" />
@@ -81,6 +81,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomControls\StatementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -129,9 +133,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ProjectIndividual.Domain\ProjectIndividual.Domain.csproj">
       <Project>{fe3400e9-d1ad-4296-a4fb-a022dd8f3f49}</Project>

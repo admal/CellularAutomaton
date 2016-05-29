@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ProjectIndividual.UI.Validation
@@ -10,6 +11,7 @@ namespace ProjectIndividual.UI.Validation
             string input = value as string;
             if (string.IsNullOrWhiteSpace(input))
             {
+             //   MessageBox.Show("Test");
                 return new ValidationResult(false, "String can not be empty!");
             }
             return new ValidationResult(true, null);

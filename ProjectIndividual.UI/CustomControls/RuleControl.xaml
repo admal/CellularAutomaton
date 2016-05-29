@@ -9,7 +9,7 @@
              xmlns:rulesEntities="clr-namespace:ProjectIndividual.Domain.RulesComponent.Entities;assembly=ProjectIndividual.Domain"
              xmlns:viewModels="clr-namespace:ProjectIndividual.UI.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="661.5">
+             d:DesignHeight="30" d:DesignWidth="718.5">
     <UserControl.Resources>
         <ObjectDataProvider x:Key="CellStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -33,7 +33,7 @@
             <TextBox Width="36" x:Name="tbPriority" DockPanel.Dock="Left" Text="{Binding Priority}"></TextBox>
             <Separator DockPanel.Dock="Left" Height="30px" />
             <Label Background="AliceBlue" Content="If current cell state is" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
-            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" SelectedItem="{Binding InputState}" Width="53"></ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CellStateEnum}}" SelectedItem="{Binding InputState}" Width="89"></ComboBox>
             <Label Content="and there are" Background="AliceBlue"></Label>
 
             <ListView x:Name="listStatements" ItemsSource="{Binding Statements}">
@@ -45,7 +45,7 @@
             </ListView>
             <Button Content="Add statement"  Command="{Binding AddStatementCommand}" Width="96" ></Button>
             <Label Content="then current cell becomes"></Label>
-            <ComboBox ItemsSource="{Binding Source={StaticResource CellOutStateEnum}}" SelectedItem="{Binding RetState}" Width="53"></ComboBox>
+            <ComboBox ItemsSource="{Binding Source={StaticResource CellOutStateEnum}}" SelectedItem="{Binding RetState}" Width="63"></ComboBox>
             
         </DockPanel>
     </Grid>

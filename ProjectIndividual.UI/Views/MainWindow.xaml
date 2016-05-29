@@ -8,7 +8,7 @@
          xmlns:ig="http://schemas.infragistics.com/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Title="Cellular automaton" WindowState="Maximized" >
+        Title="Cellular automaton" WindowState="Maximized" Closing="OnCLosingHandler" >
     <Window.Resources>
         <viewModels:GridViewModel x:Key="mainGrid"></viewModels:GridViewModel>
     </Window.Resources>
@@ -31,7 +31,7 @@
                 <MenuItem Header="_Info" ></MenuItem>
             </Menu>
             <UniformGrid Height="50px" DockPanel.Dock="Bottom" Rows="1" >
-                <Button Content="Run/Stop" 
+                <Button Content="Run/Pause" 
                         IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}" Command="{Binding StartGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"
                         ></Button>
                 <Button Content="Next step" IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}" Command="{Binding NextStepCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></Button>
@@ -62,8 +62,7 @@
                       Background="White"
                       >
                     <!--<Grid.LayoutTransform >
-                        <ScaleTransform CenterX="0" 
-                                        CenterY="0" 
+                        <ScaleTransform
                                         ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
                                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"
                             />

@@ -44,7 +44,7 @@
             <ComboBox Width="61" HorizontalAlignment="Left" ItemsSource="{Binding Source={StaticResource LogicalConnectorEnum}}" 
                       SelectedItem="{Binding Connector}" 
                         IsEnabled="{Binding ShowConnector}"></ComboBox>
-            <TextBox HorizontalAlignment="Left" Width="35" Margin="66,0,0,0" x:Name="tbNumOcells" 
+            <TextBox HorizontalAlignment="Left" Width="35" Margin="71,0,0,0" x:Name="tbNumOcells" 
                      >
                 <TextBox.Text>
                     <Binding Path="LogicalSentence.NumOfCells" >

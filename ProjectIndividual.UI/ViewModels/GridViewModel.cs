@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using ProjectIndividual.Domain.FileManagment;
 using ProjectIndividual.Domain.GridComponent.Entities;
@@ -43,7 +37,7 @@ namespace ProjectIndividual.UI.ViewModels
 
         private ComputingThread computingThread;
         private uint size = 1;
-        private uint scale = 1;
+        private uint scale = 50;
         private int offsetX = 0, offsetY = 0;
         #endregion
 
@@ -123,7 +117,7 @@ namespace ProjectIndividual.UI.ViewModels
         public GridViewModel()
         {
             grid = new Grid();
-            openRulesCommand = new BasicCommand(this.OpenRulesWindow, () => true);
+            openRulesCommand = new BasicCommand(this.OpenRulesWindow, () => (isPaused || !isStarted));
             loadGridCommand = new BasicCommand(this.OpenLoadGridWindow, () => !isStarted);
             startGridCommand = new BasicCommand(StartPauseComputingGrid, ()=>true);
             jumpStepsCommand = new BasicCommand(JumpNSteps, ()=>true );
@@ -133,9 +127,9 @@ namespace ProjectIndividual.UI.ViewModels
             closeAppCommand = new BasicCommand(ExitApplication, () => true );
         }
 
-        private void ExitApplication()
+        public void ExitApplication()
         {
-            computingThread.Stop();
+            computingThread?.Stop();
         }
 
 
@@ -158,10 +152,16 @@ namespace ProjectIndividual.UI.ViewModels
         #region Methods
         private void SaveCurrentGrid()
         {
+            if (grid.VisitedCells.Count == 0)
+            {
+                MessageBox.Show("The grid is empty!");
+                return;
+            }
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "Grid file (*.grid)|*.grid";
             if (dialog.ShowDialog() == true)
             {
+                grid.Rules = null;
                 FileCreator.WriteToBinaryFile(dialog.FileName, grid);
             }
         }
@@ -249,6 +249,10 @@ namespace ProjectIndividual.UI.ViewModels
 
         public void AddNewCell(double x, double y)
         {
+            if (!isPaused && isStarted)
+            {
+                return;
+            }
             int actualX = (int)Math.Floor(x /size/scale + offsetX);
             int actualY = (int)Math.Floor(y / size / scale + offsetY);
             Debug.WriteLine("New cell at: " + actualX + ", " +actualY);
@@ -264,6 +268,10 @@ namespace ProjectIndividual.UI.ViewModels
 
         public void RemoveCell(double x, double y)
         {
+            if (!isPaused && isStarted)
+            {
+                return;
+            }
             int actualX = (int)Math.Floor(x / size / scale);
             int actualY = (int)Math.Floor(y / size / scale);
             var pos = new Position(actualX, actualY);

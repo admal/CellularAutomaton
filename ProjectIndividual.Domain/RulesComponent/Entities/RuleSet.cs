@@ -19,11 +19,13 @@ namespace ProjectIndividual.Domain.RulesComponent.Entities
         public RulesSet()
         {
             rules = new List<Rule>();
+            Name = "rulename";
         }
 
         public RulesSet(IList<Rule> rules)
         {
             this.rules = rules.OrderByDescending(r => r.Priority).ToList();
+            Name = "rulename";
         }
 
         public CellState Apply(Grid grid, Cell currCell)

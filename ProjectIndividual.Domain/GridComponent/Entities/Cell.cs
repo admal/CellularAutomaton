@@ -27,6 +27,13 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
 
         public CellState Update(Grid grid)
         {
+            //if (position.X > Grid.MAX_POSITION || 
+            //    position.Y > Grid.MAX_POSITION || 
+            //    position.X < -Grid.MAX_POSITION || 
+            //    position.Y < -Grid.MAX_POSITION )
+            //{
+            //    grid.RemoveCell(this.position);
+            //}
             var retState = grid.Rules.Apply(grid, this);
             return retState;
         }

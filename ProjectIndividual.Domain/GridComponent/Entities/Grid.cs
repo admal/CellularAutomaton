@@ -8,7 +8,7 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
     [Serializable]
     public class Grid
     {
-        private const long MAX_POSITION = 100000;
+        public const long MAX_POSITION = 100;
         private Dictionary<Position, Cell> visitedCells;
         private Dictionary<Position, Cell> newCellsGeneration;
         //rules

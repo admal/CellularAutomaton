@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ProjectIndividual.UI.Validation
@@ -41,6 +42,7 @@ namespace ProjectIndividual.UI.Validation
 
             if ((input < Min) || (input > Max))
             {
+                //MessageBox.Show("Test");
                 return new ValidationResult(false,
                   "Please enter number of row/column in range: " + Min + " - " + Max + ".");
             }

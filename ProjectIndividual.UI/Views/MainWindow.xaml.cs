@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using ProjectIndividual.UI.ViewModels;
@@ -18,7 +19,6 @@ namespace ProjectIndividual.UI.Views
             InitializeComponent();
             viewModel = Resources["mainGrid"] as GridViewModel;
         }
-#warning TMP!!!!
         private void SeeAllClick(object sender, RoutedEventArgs e)
         {
             uiScaleSlider.Value = 1;
@@ -32,6 +32,11 @@ namespace ProjectIndividual.UI.Views
         private void OnCanvasRightDown(object sender, MouseButtonEventArgs e)
         {
             viewModel.RemoveCell(e.GetPosition(cellsGrid).X, e.GetPosition(cellsGrid).Y);
+        }
+
+        private void OnCLosingHandler(object sender, CancelEventArgs e)
+        {
+            viewModel.ExitApplication();
         }
     }
 }

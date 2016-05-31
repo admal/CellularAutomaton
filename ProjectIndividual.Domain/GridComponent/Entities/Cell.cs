@@ -14,6 +14,11 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
             this.state = state;
         }
 
+        public Cell(Cell cell)
+        {
+            position = new Position(cell.X, cell.Y);
+            state = cell.state;
+        }
         public Position Position { get { return position; } }
 
         public long X { get { return position.X; } }

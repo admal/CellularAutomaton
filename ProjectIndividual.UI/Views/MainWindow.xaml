@@ -35,7 +35,7 @@
                         IsEnabled="{Binding isStartable, Source={StaticResource mainGrid}}" Command="{Binding StartGridCommand, Mode=OneWay, Source={StaticResource mainGrid}}"
                         ></Button>
                 <Button Content="Next step" IsEnabled="{Binding isPaused, Source={StaticResource mainGrid}}" Command="{Binding NextStepCommand, Mode=OneWay, Source={StaticResource mainGrid}}"></Button>
-                <Slider x:Name="uiScaleSlider" ToolTip="Zoom" Value="{Binding Scale,Source={StaticResource mainGrid}}" Minimum="1" Maximum="100" VerticalAlignment="Center"
+                <Slider x:Name="uiScaleSlider" Value="20" ToolTip="Zoom"  Minimum="10" Maximum="80" VerticalAlignment="Center"
                          />
                 <Button Content="See all" ToolTip="See all living cells"  
                         IsEnabled="{Binding isStarted, Source={StaticResource mainGrid}}" Click="SeeAllClick" ></Button>
@@ -61,12 +61,12 @@
                       x:Name="cellsGrid" 
                       Background="White"
                       >
-                    <!--<Grid.LayoutTransform >
+                    <Grid.LayoutTransform >
                         <ScaleTransform
                                         ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
                                         ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}"
                             />
-                    </Grid.LayoutTransform>-->
+                    </Grid.LayoutTransform>
                     <ItemsControl ItemsSource="{Binding Rectangles,Source={StaticResource mainGrid}}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

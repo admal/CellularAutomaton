@@ -63,6 +63,7 @@
       <DependentUpon>StatementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomThreads\ComputingThread.cs" />
+    <Compile Include="Helpers\MTObservableCollection.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Validation\RangeValidator.cs" />
     <Compile Include="Validation\StringValidator.cs" />

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using ProjectIndividual.Domain.GridComponent.Entities;
 using ProjectIndividual.Domain.RulesComponent.Entities;
-using ProjectIndividual.UI.Annotations;
 using ProjectIndividual.UI.Commands;
 
 namespace ProjectIndividual.UI.ViewModels

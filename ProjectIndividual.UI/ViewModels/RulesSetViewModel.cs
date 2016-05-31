@@ -108,10 +108,21 @@ namespace ProjectIndividual.UI.ViewModels
             bool? userClickedOK = dialog.ShowDialog();
             if (userClickedOK == true)
             {
-                rulesSet = FileLoader.ReadFromBinaryFile<RulesSet>(dialog.FileName);
+                try
+                {
+                    rulesSet = FileLoader.ReadFromBinaryFile<RulesSet>(dialog.FileName);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Rule was not loaded properly!", "Error!", 
+                        MessageBoxButton.OK,MessageBoxImage.Error);
+                    return;
+                }
+                
                 RaisePropertyChanged("RuleName");
                 RaisePropertyChanged("Rules");
-                MessageBox.Show("Rules loaded properly!");
+                MessageBox.Show("Rules loaded properly!", "Success", 
+                    MessageBoxButton.OK,MessageBoxImage.Information);
             }
         }
 

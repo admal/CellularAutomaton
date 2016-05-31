@@ -12,6 +12,7 @@ using ProjectIndividual.Domain.GridComponent.Entities;
 using ProjectIndividual.Domain.RulesComponent.Entities;
 using ProjectIndividual.UI.Commands;
 using ProjectIndividual.UI.CustomThreads;
+using ProjectIndividual.UI.Helpers;
 using ProjectIndividual.UI.Views;
 using Grid = ProjectIndividual.Domain.GridComponent.Entities.Grid;
 using Point = System.Windows.Point;
@@ -37,8 +38,9 @@ namespace ProjectIndividual.UI.ViewModels
 
         private ComputingThread computingThread;
         private uint size = 1;
-        private uint scale = 50;
+        private uint scale = 1;//50;
         private int offsetX = 0, offsetY = 0;
+        private bool passedMaxCount = false;
         #endregion
 
         #region Properties
@@ -71,15 +73,16 @@ namespace ProjectIndividual.UI.ViewModels
             get
             {
                 return scale;
+                
             }
             set
             {
-                scale = value;
-                foreach (var cellViewModel in rects)
-                {
-                    cellViewModel.Size = scale*size;
-                }
-                RaisePropertyChanged("Rectangles");
+                //scale = value;
+                //foreach (var cellViewModel in rects)
+                //{
+                //    cellViewModel.Size = scale*size;
+                //}
+                //RaisePropertyChanged("Rectangles");
             }
         }
 
@@ -93,18 +96,28 @@ namespace ProjectIndividual.UI.ViewModels
         {
             get
             {
-                rects = new ObservableCollection<CellViewModel>(
-                    grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
+                foreach (var cellViewModel in rects)
+                {
+                    cellViewModel.RaisePropertyChanged("Fill");
+                }
+                //rects = new ObservableCollection<CellViewModel>(
+                //    grid.ImportantCells.Select(c => new CellViewModel(c, size* scale, offsetX, offsetY)));
                 return rects;
             }
         }
-        public int ScreenWidth { get; } = (int)System.Windows.SystemParameters.PrimaryScreenWidth;
-        public int ScreenHeight { get; } = (int)System.Windows.SystemParameters.PrimaryScreenHeight;
-        public int LivingCellsCount
+        public int ScreenWidth { get; } = (int)System.Windows.SystemParameters.PrimaryScreenWidth/10;
+        public int ScreenHeight { get; } = (int)System.Windows.SystemParameters.PrimaryScreenHeight/10;
+        public string LivingCellsCount
         {
             get
             {
-                return grid.VisitedCells.Values.Count;
+                if (!passedMaxCount)
+                {
+                    int count = grid.ImportantCells.Count();
+                    passedMaxCount = count > 1000;
+                    return count.ToString();
+                }
+                return "> 1000";
             }
         }
 
@@ -201,7 +214,17 @@ namespace ProjectIndividual.UI.ViewModels
             bool? userClickedOK = dialog.ShowDialog();
             if (userClickedOK == true)
             {
-                grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
+                try
+                {
+                    grid = FileLoader.ReadFromBinaryFile<Grid>(dialog.FileName);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Provided file does not contain proper grid!", "Error!", 
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                
                 rects = new ObservableCollection<CellViewModel>(
                     grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
                 grid.ClearNewGenration();//clear if sth left during saving
@@ -209,7 +232,8 @@ namespace ProjectIndividual.UI.ViewModels
                 RaisePropertyChanged("LivingCellsCount");
                 RaisePropertyChanged("RulesName");
                 RaisePropertyChanged("isStartable");
-                MessageBox.Show("Grid loaded properly!");
+                MessageBox.Show("Grid loaded properly!", "Success",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         public void OpenRulesWindow()
@@ -286,10 +310,17 @@ namespace ProjectIndividual.UI.ViewModels
             
             RaisePropertyChanged("Rectangles");
         }
+
+        SynchronizationContext uiContext = SynchronizationContext.Current;
         public void Update()
         {
             generation++;
-            grid.UpdateGrid();
+            var newCells = grid.UpdateGrid();
+            foreach (var newCell in newCells)
+            {
+                uiContext.Send(x => rects.Add(new CellViewModel(newCell, size * scale, offsetX, offsetY)),null); 
+                        //send to ui thread
+            }
             RaisePropertyChanged("Generation");
             RaisePropertyChanged("Rectangles");
             RaisePropertyChanged("LivingCellsCount");

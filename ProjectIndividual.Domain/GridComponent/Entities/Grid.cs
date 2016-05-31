@@ -8,27 +8,26 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
     [Serializable]
     public class Grid
     {
-        public const long MAX_POSITION = 100;
+        public const long MAX_POSITION = 30;
         private Dictionary<Position, Cell> visitedCells;
         private Dictionary<Position, Cell> newCellsGeneration;
         //rules
         private RulesSet rules;
-
         public Dictionary<Position, Cell> VisitedCells
         {
             get { return visitedCells; }
         }
-        
+
+
         public IEnumerable<Cell> ImportantCells
         {
             get { return visitedCells.Values.Where(c => c.State != CellState.Unvisited); }
         } 
         public Cell GetCell(Position position)
         {
-            if (visitedCells.ContainsKey(position))
-            {
-                return visitedCells[position];
-            }
+            Cell outCell;
+            if (visitedCells.TryGetValue(position, out outCell))
+                return outCell;
             throw new Exception("On given position there is not visited cell and given position is not neighbour of visited cell!");
         }
 
@@ -107,28 +106,55 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
 
         public CellState GetCellState(Position position)
         {
-            if(!visitedCells.ContainsKey(position))
-                return CellState.Unvisited;
-            return visitedCells[position].State;
+            Cell outCell;
+            if (VisitedCells.TryGetValue(position, out outCell))
+            {
+                return visitedCells[position].State;
+            }
+            return CellState.Unvisited;
+            
         }
-        public void UpdateGrid()
+        /// <summary>
+        /// Updates VisitedCells dictionary by applaying rules to each cell
+        /// </summary>
+        /// <returns>List of new cells</returns>
+        public List<Cell> UpdateGrid()
         {
-            AddNeighbours();
+            List<Cell> newCells= new List<Cell>();
+            newCells = AddNeighbours();
             ComputeNextGeneration();
-            visitedCells = new Dictionary<Position, Cell>(newCellsGeneration);
+            //visitedCells = new Dictionary<Position, Cell>(newCellsGeneration);
+            foreach (var cell in newCellsGeneration)
+            {
+                Cell outCell;
+                if (visitedCells.TryGetValue(cell.Key, out outCell))
+                {
+                    outCell.State = cell.Value.State;
+                }
+                else
+                {
+                    visitedCells.Add(cell.Key, new Cell(cell.Value));
+                }
+            }
             newCellsGeneration.Clear();
+
+            return newCells;
         }
         /// <summary>
         /// Add not added yet neighbours of visited cells.
         /// </summary>
-        public void AddNeighbours()
+        public List<Cell> AddNeighbours()
         {
+            var newCells = new List<Cell>();
             for (int x = 0; x < visitedCells.Count; x++)
             {
-
-                //Cell currCell = entry.Value;
                 Cell currCell = visitedCells.ElementAt(x).Value;
-                if (currCell.State == CellState.Unvisited)
+                if (currCell.Position.X <= -MAX_POSITION || currCell.Y <= -MAX_POSITION) 
+                    //do not add more neighbours for realy far cells
+                {
+                    continue;
+                }
+                if (currCell.State == CellState.Unvisited) //do not add neighbours for unvisited cells
                 {
                     continue;
                 }
@@ -139,11 +165,14 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
                         var currPos = new Position(currCell.X + i, currCell.Y + j);
                         if (!visitedCells.ContainsKey(currPos))
                         {
-                            visitedCells.Add(currPos, new Cell(currPos, CellState.Unvisited));
+                            var cell = new Cell(currPos, CellState.Unvisited);
+                            visitedCells.Add(currPos, cell);
+                            newCells.Add(cell);
                         }
                     }
                 }
             }
+            return newCells;
         }
 
         public CellState SwitchCellState(Position position)
@@ -170,13 +199,19 @@ namespace ProjectIndividual.Domain.GridComponent.Entities
             }
             return CellState.Unvisited;
         }
-
-        public void RemoveCell(Position position)
+        /// <summary>
+        /// Removes cell from grid
+        /// </summary>
+        /// <param name="position">position of cell to be removed</param>
+        /// <returns>true if cell was removed (it has already existed in grid)</returns>
+        public bool RemoveCell(Position position)
         {
             if (VisitedCells.ContainsKey(position))
             {
                 VisitedCells.Remove(position);
+                return true;
             }
+            return false;
         }
     }
 }

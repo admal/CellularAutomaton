@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using ProjectIndividual.Domain.GridComponent.Entities;
-using ProjectIndividual.UI.Annotations;
 
 namespace ProjectIndividual.UI.ViewModels
 {
@@ -26,7 +25,16 @@ namespace ProjectIndividual.UI.ViewModels
         {
             get
             {
-                return cell.State == CellState.Dead ? Brushes.Black : Brushes.Red;
+                //return cell.State == CellState.Dead ? Brushes.Black : Brushes.Red;
+                if (cell.State == CellState.Alive)
+                {
+                    return Brushes.Red;
+                }
+                if (cell.State == CellState.Dead)
+                {
+                    return Brushes.Black;
+                }
+                return Brushes.White;
             }
         }
         public long X { get { return cell.Y * size + offsetY ; } }
@@ -61,5 +69,14 @@ namespace ProjectIndividual.UI.ViewModels
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is CellViewModel)
+            {
+                var cellB = obj as CellViewModel;
+                return cellB.X == this.X && cellB.Y == this.Y;
+            }
+            return base.Equals(obj);
+        }
     }
 }

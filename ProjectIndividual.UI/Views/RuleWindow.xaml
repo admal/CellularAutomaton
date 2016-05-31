@@ -20,6 +20,7 @@
     </Window.Resources>
 
     <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Top">
                 <Button Content="Apply" Command="{Binding ApplyRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}" HorizontalAlignment="Left" Margin="76,0,0,0" Width="45"></Button>
@@ -45,17 +46,22 @@
                         </TextBox.Text>
                     </TextBox>
                 </Grid>
-                <ListView  ItemsSource="{Binding Rules , Source={StaticResource rulesSet}}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <customControls:RuleControl ></customControls:RuleControl>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <Button Content="Add rule" Height="50" HorizontalAlignment="Left" Width="100" Command="{Binding AddRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}"/>
+                
+                    <StackPanel>
+                        <ListView ItemsSource="{Binding Rules , Source={StaticResource rulesSet}}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <customControls:RuleControl ></customControls:RuleControl>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                
+                        <Button Content="Add rule" Height="50" HorizontalAlignment="Left" Width="100" Command="{Binding AddRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}"/>
+                    </StackPanel>
+                
             </StackPanel>
         </DockPanel>
 
-
+        </ScrollViewer>
     </Grid>
 </Window>

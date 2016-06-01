@@ -174,7 +174,7 @@ namespace ProjectIndividual.UI.ViewModels
             dialog.Filter = "Grid file (*.grid)|*.grid";
             if (dialog.ShowDialog() == true)
             {
-                grid.Rules = null;
+                //grid.Rules = null;
                 FileCreator.WriteToBinaryFile(dialog.FileName, grid);
             }
         }
@@ -229,6 +229,7 @@ namespace ProjectIndividual.UI.ViewModels
                 rects = new ObservableCollection<CellViewModel>(
                     grid.ImportantCells.Select(c => new CellViewModel(c, size * scale, offsetX, offsetY)));
                 grid.ClearNewGenration();//clear if sth left during saving
+                grid.Rules = null;
                 RaisePropertyChanged("Rectangles");
                 RaisePropertyChanged("LivingCellsCount");
                 RaisePropertyChanged("RulesName");

@@ -194,6 +194,7 @@ namespace ProjectIndividual.UI.ViewModels
             RaisePropertyChanged("isStartable");
             RaisePropertyChanged("isPaused");
             RaisePropertyChanged("isStarted");
+            RaisePropertyChanged("LivingCellsCount");
         }
 
         private void JumpNSteps()
@@ -288,6 +289,7 @@ namespace ProjectIndividual.UI.ViewModels
                 rects.Add(newCell);
             }
             RaisePropertyChanged("Rectangles");
+            RaisePropertyChanged("LivingCellsCount");
         }
 
         public void RemoveCell(double x, double y)
@@ -309,6 +311,7 @@ namespace ProjectIndividual.UI.ViewModels
             grid.RemoveCell(pos);
             
             RaisePropertyChanged("Rectangles");
+            RaisePropertyChanged("LivingCellsCount");
         }
 
         SynchronizationContext uiContext = SynchronizationContext.Current;

@@ -26,9 +26,8 @@
                 <Button Content="Apply" Command="{Binding ApplyRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}" HorizontalAlignment="Left" Margin="76,0,0,0" Width="45"></Button>
                 <Button Content="Save rules"  HorizontalAlignment="Left" Width="76" Command="{Binding SaveRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}"></Button>
                 <Button Content="Load rules" HorizontalAlignment="Left" Margin="121,0,0,0" Width="73" Command="{Binding LoadRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}" ></Button>
-                <Button Content="Clear rules" Width="70" HorizontalAlignment="Left" Margin="194,0,0,0" Command="{Binding ClearRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}" ></Button>
-                <Button Content="Back" HorizontalAlignment="Right" Width="49"></Button>
-            </Grid>
+                    <Button Content="Clear rules" Width="70" HorizontalAlignment="Left" Margin="194,0,0,0" Command="{Binding ClearRuleCommand, Mode=OneWay, Source={StaticResource rulesSet}}" ></Button>
+                </Grid>
             <Separator DockPanel.Dock="Top" Height="8" ></Separator>
             <StackPanel>
                 <Grid Width="167" HorizontalAlignment="Left" >
